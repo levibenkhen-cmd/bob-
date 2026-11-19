@@ -1,185 +1,2083 @@
-<!doctype html>
-<html lang="en">
+<!doctype html><html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f0e8">
-  <meta name="description" content="Common Ground is a neighborhood coffee bar for good coffee, fresh baking, and unhurried mornings.">
-  <title>Common Ground - Coffee for the in-between</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5f1e9" />
+  <meta name="description" content="Mentorize connects JETS student goals, mentorship, learning, and future opportunities." />
+  <meta http-equiv="refresh" content="0;url=mentorize.html" />
+  <title>Mentorize — JETS Student Development</title>
   <style>
     :root {
-      color-scheme: light;
-      --paper: #f4f0e8;
-      --ink: #202a22;
-      --muted: #667067;
-      --green: #244b38;
-      --lime: #c4dc71;
-      --line: rgba(32, 42, 34, .18);
-      --sans: "DM Sans", sans-serif;
-      --serif: "Fraunces", Georgia, serif;
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --panel-alt: #eef5ff;
+      --header-blue: #4d8cd7;
+      --header-blue-deep: #2f6db8;
+      --primary: #1f69c8;
+      --primary-soft: #dfeefc;
+      --accent-green: #4ab58d;
+      --accent-green-soft: #e7f7ef;
+      --warning: #f4b860;
+      --warning-soft: #fff0d2;
+      --orange: #f39a44;
+      --orange-soft: #ffe7d0;
+      --danger: #d85959;
+      --danger-soft: #ffe2e2;
+      --ink: #19324d;
+      --muted: #627892;
+      --line: #d9e5f2;
+      --shadow: 0 18px 40px rgba(34, 69, 112, 0.12);
+      --radius: 24px;
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
-    a { color: inherit; }
-    button, input { font: inherit; }
-    .topbar { height: 78px; padding: 0 6.2vw; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
-    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-    .brand-mark { width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; font-family: var(--serif); font-size: 16px; font-weight: 500; }
-    .nav { display: flex; align-items: center; gap: clamp(22px, 3.5vw, 52px); }
-    .nav a { text-decoration: none; font-size: 13px; }
-    .nav a:hover, .text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .nav .nav-cta { padding: 12px 18px; color: var(--paper); background: var(--green); border-radius: 2px; }
-    .hero { min-height: min(690px, calc(100svh - 78px)); padding: 7vw 6.2vw 6vw; position: relative; display: flex; align-items: flex-end; color: white; background: #344638 url("https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=2200&q=85") center 53% / cover no-repeat; isolation: isolate; }
-    .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(13, 25, 18, .72), rgba(13, 25, 18, .08) 78%), linear-gradient(0deg, rgba(13, 25, 18, .36), transparent 55%); }
-    .hero-copy { max-width: 700px; animation: arrive .8s ease-out both; }
-    .eyebrow { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; }
-    .eyebrow::before { content: ""; width: 25px; height: 1px; background: currentColor; }
-    h1 { margin: 21px 0 16px; font-family: var(--serif); font-size: clamp(56px, 9vw, 116px); font-weight: 500; line-height: .9; letter-spacing: 0; }
-    .hero-copy p { max-width: 390px; margin: 0; color: rgba(255,255,255,.88); font-size: 16px; line-height: 1.6; }
-    .hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 31px; }
-    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 47px; padding: 0 19px; text-decoration: none; font-size: 13px; font-weight: 600; }
-    .button-light { color: var(--ink); background: var(--lime); }
-    .text-link { font-size: 13px; font-weight: 600; text-decoration: none; }
-    .hero-note { position: absolute; right: 6.2vw; bottom: 35px; font-size: 11px; letter-spacing: .04em; }
-    .ticker { display: grid; grid-template-columns: 1.25fr 1fr 1fr 1fr; border-bottom: 1px solid var(--line); }
-    .ticker-item { min-height: 106px; padding: 23px 3vw; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(--line); }
-    .ticker-item:last-child { border-right: 0; }
-    .ticker-label { margin-bottom: 8px; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-    .ticker-value { font-family: var(--serif); font-size: 20px; }
-    .section { padding: 100px 10vw; }
-    .intro { display: grid; grid-template-columns: .9fr 1.1fr; gap: 10vw; align-items: start; }
-    .section-kicker { margin: 4px 0 0; color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-    .intro h2, .newsletter h2 { max-width: 680px; margin: 0; font-family: var(--serif); font-size: clamp(38px, 5.2vw, 68px); font-weight: 500; line-height: 1.02; }
-    .intro-copy { max-width: 450px; margin: 25px 0 0; color: var(--muted); font-size: 15px; line-height: 1.8; }
-    .menu { padding: 74px 10vw 88px; color: var(--paper); background: var(--green); }
-    .menu-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 38px; }
-    .menu-head h2 { margin: 0; font-family: var(--serif); font-size: clamp(40px, 6vw, 72px); font-weight: 500; }
-    .menu-head .section-kicker { color: var(--lime); }
-    .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(244,240,232,.32); }
-    .menu-item { padding: 23px 20px 20px 0; border-bottom: 1px solid rgba(244,240,232,.32); }
-    .menu-item:nth-child(3n + 2), .menu-item:nth-child(3n) { padding-left: 20px; border-left: 1px solid rgba(244,240,232,.32); }
-    .menu-item h3 { margin: 0 0 9px; font-size: 15px; font-weight: 600; }
-    .menu-item p { margin: 0; color: rgba(244,240,232,.72); font-size: 12px; line-height: 1.6; }
-    .menu-price { float: right; margin-left: 12px; color: var(--lime); font-size: 13px; }
-    .newsletter { padding: 76px 10vw; display: flex; justify-content: space-between; align-items: center; gap: 40px; background: var(--lime); }
-    .newsletter h2 { max-width: 500px; font-size: clamp(34px, 4.2vw, 54px); }
-    .newsletter p { max-width: 390px; margin: 13px 0 0; color: #435136; font-size: 13px; line-height: 1.6; }
-    .signup { width: min(360px, 100%); display: flex; border-bottom: 1px solid var(--ink); }
-    .signup input { min-width: 0; flex: 1; padding: 14px 2px; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; }
-    .signup input::placeholder { color: #526044; }
-    .signup button { width: 44px; border: 0; background: transparent; color: var(--ink); cursor: pointer; font-size: 21px; }
-    .signup-status { min-height: 18px; margin-top: 8px; font-size: 12px; }
-    footer { padding: 30px 6.2vw; display: flex; justify-content: space-between; align-items: center; gap: 20px; color: var(--paper); background: var(--ink); font-size: 11px; }
-    footer a { text-decoration: none; }
-    .footer-meta { display: flex; gap: 22px; }
-    @keyframes arrive { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-    @media (max-width: 700px) {
-      .topbar { height: 68px; padding: 0 6vw; }
-      .nav { gap: 15px; }
-      .nav a { font-size: 11px; }
-      .nav a:nth-child(2) { display: none; }
-      .nav .nav-cta { padding: 10px 12px; }
-      .hero { min-height: 570px; min-height: min(690px, calc(76svh - 68px)); padding: 48px 7vw 60px; background-position: 58% center; }
-      .hero-copy { max-width: 460px; }
-      h1 { font-size: clamp(54px, 15vw, 84px); }
-      .hero-copy p { max-width: 310px; font-size: 14px; }
-      .hero-note { display: none; }
-      .ticker { grid-template-columns: 1fr 1fr; }
-      .ticker-item { min-height: 83px; padding: 15px 7vw; border-bottom: 1px solid var(--line); }
-      .ticker-item:nth-child(2) { border-right: 0; }
-      .ticker-item:nth-child(3), .ticker-item:nth-child(4) { border-bottom: 0; }
-      .section { padding: 68px 7vw; }
-      .intro { grid-template-columns: 1fr; gap: 22px; }
-      .intro h2 { font-size: 48px; }
-      .intro-copy { margin-top: 17px; font-size: 14px; }
-      .menu { padding: 62px 7vw 70px; }
-      .menu-grid { grid-template-columns: 1fr 1fr; }
-      .menu-item:nth-child(3n + 2), .menu-item:nth-child(3n) { padding-left: 0; border-left: 0; }
-      .menu-item:nth-child(even) { padding-left: 15px; border-left: 1px solid rgba(244,240,232,.32); }
-      .menu-head { display: block; }
-      .menu-head h2 { margin-top: 14px; }
-      .newsletter { padding: 58px 7vw; display: block; }
-      .signup { margin-top: 25px; }
-      footer { padding: 26px 7vw; align-items: flex-start; flex-direction: column; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(125, 171, 234, 0.18), transparent 28%),
+        linear-gradient(180deg, #edf4ff 0%, #f4f7fb 50%, #eef6fb 100%);
+      color: var(--ink);
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 28px;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      width: min(1100px, 100%);
+      min-height: 900px;
+      background: rgba(255, 255, 255, 0.72);
+      border-radius: 34px;
+      overflow: hidden;
+      box-shadow: 0 28px 80px rgba(22, 58, 108, 0.18);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(57, 100, 162, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .app-header {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 18px;
+      background: linear-gradient(180deg, #5a9ae9 0%, #3c7ed5 100%);
+      color: #fff;
+      padding: 18px 26px 16px;
+      min-height: 92px;
+      box-shadow: inset 0 -1px 0 rgba(255,255,255,0.2);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: clamp(1.35rem, 2vw, 2.15rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      white-space: nowrap;
+    }
+
+    .connection-status {
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 0.98rem;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    .connection-status svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .menu-button {
+      justify-self: end;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .menu-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .screen {
+      display: none;
+      flex: 1;
+      padding: 26px 24px 96px;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid rgba(74, 117, 182, 0.08);
+      border-radius: var(--radius);
+      box-shadow: 0 14px 28px rgba(46, 81, 128, 0.06);
+      padding: 20px 20px 18px;
+    }
+
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .card-title-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-bed-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--primary-soft), #dfeeff);
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+    }
+
+    .mini-bed-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .bed-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .bed-illustration {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(180deg, #edf4ff 0%, #eaf5ff 100%);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .bed-base {
+      position: absolute;
+      left: 14%;
+      right: 14%;
+      bottom: 18px;
+      height: 18px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #63a4ec 0%, #3f7bd0 100%);
+      box-shadow: inset 0 -4px 0 rgba(255,255,255,0.18);
+    }
+
+    .bed-mattress {
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      bottom: 32px;
+      height: 52px;
+      border-radius: 14px 14px 14px 18px;
+      background: linear-gradient(180deg, #dfeeff 0%, #d9edff 100%);
+      border: 1px solid rgba(61, 104, 165, 0.18);
+    }
+
+    .head-section {
+      position: absolute;
+      left: 24%;
+      bottom: 36px;
+      width: 50%;
+      height: 54px;
+      border-radius: 18px 22px 12px 12px;
+      background: linear-gradient(180deg, #cfe4ff 0%, #bddcff 100%);
+      transform-origin: bottom left;
+      transform: rotate(-20deg);
+      box-shadow: inset -6px 0 0 rgba(103, 134, 196, 0.15);
+    }
+
+    .leg-rail {
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 14px;
+      height: 10px;
+      border-radius: 8px;
+      background: rgba(59, 103, 171, 0.34);
+    }
+
+    .bed-position {
+      margin: 12px 0 20px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .bed-action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .bed-btn {
+      appearance: none;
+      border: 1px solid rgba(45, 95, 161, 0.18);
+      background: linear-gradient(180deg, #f8fbff 0%, #edf5ff 100%);
+      color: var(--ink);
+      border-radius: 14px;
+      padding: 11px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .bed-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(58, 104, 163, 0.08);
+      border-color: rgba(45, 95, 161, 0.26);
+    }
+
+    .bed-btn.primary {
+      background: linear-gradient(180deg, #e8f2ff 0%, #d7ebff 100%);
+      border-color: rgba(50, 96, 160, 0.24);
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 92px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent-green);
+      transition: background 0.2s ease;
+    }
+
+    .status-pill.moving {
+      background: var(--warning);
+      color: #7a4b00;
+    }
+
+    .status-pill.stopped {
+      background: var(--danger);
+    }
+
+    .status-pill.lost {
+      background: #7c8ea6;
+    }
+
+    .pressure-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .pressure-title {
+      margin: 0 0 8px;
+      font-size: 1.03rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .pressure-map-wrap {
+      display: grid;
+      place-items: center;
+      padding: 8px 0 10px;
+    }
+
+    .body-map {
+      position: relative;
+      width: min(100%, 250px);
+      height: 250px;
+      border-radius: 28px 28px 40px 40px;
+      background: linear-gradient(180deg, #f3f8ff 0%, #edf5ff 100%);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 2px rgba(149, 180, 219, 0.12);
+    }
+
+    .body-map::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      width: 48px;
+      height: 48px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(87, 125, 177, 0.12);
+    }
+
+    .pressure-shape {
+      position: absolute;
+      background: #dfeeff;
+      border-radius: 18px;
+      border: 1px solid rgba(90, 116, 165, 0.08);
+      opacity: 0.96;
+    }
+
+    .head-zone {
+      left: 50%;
+      top: 8px;
+      width: 54px;
+      height: 52px;
+      transform: translateX(-50%);
+      background: #5ca7ff;
+      border-radius: 50%;
+    }
+
+    .shoulder-zone {
+      left: 50%;
+      top: 56px;
+      width: 122px;
+      height: 46px;
+      transform: translateX(-50%);
+      background: #8fd58d;
+      border-radius: 22px;
+    }
+
+    .torso-zone {
+      left: 50%;
+      top: 96px;
+      width: 150px;
+      height: 70px;
+      transform: translateX(-50%);
+      background: #f3d065;
+      border-radius: 26px;
+    }
+
+    .hip-zone {
+      left: 50%;
+      top: 158px;
+      width: 142px;
+      height: 34px;
+      transform: translateX(-50%);
+      background: #f7b76d;
+      border-radius: 20px;
+    }
+
+    .leg-zone {
+      width: 42px;
+      height: 64px;
+      bottom: 10px;
+      background: #f39a44;
+    }
+
+    .leg-left { left: 76px; }
+    .leg-right { right: 76px; }
+
+    .pressure-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .view-details {
+      appearance: none;
+      background: #edf5ff;
+      border: 1px solid rgba(49, 102, 177, 0.14);
+      color: var(--primary);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pressure-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .reposition-card {
+      margin-top: 22px;
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+      border-radius: var(--radius);
+      border: 1px solid rgba(65, 105, 174, 0.08);
+      box-shadow: 0 14px 28px rgba(46, 81, 128, 0.06);
+      padding: 18px 20px 20px;
+    }
+
+    .section-label {
+      margin: 0 0 18px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .reposition-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .reposition-btn,
+    .stop-btn {
+      appearance: none;
+      border: 0;
+      border-radius: 18px;
+      padding: 18px 16px;
+      font-size: 1.02rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .reposition-btn {
+      background: linear-gradient(180deg, #edf5ff 0%, #e1efff 100%);
+      color: var(--ink);
+      border: 1px solid rgba(42, 90, 151, 0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+    }
+
+    .reposition-btn:hover,
+    .stop-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(0.99);
+    }
+
+    .stop-btn {
+      grid-column: 1 / -1;
+      background: linear-gradient(180deg, #f26d6d 0%, #d94949 100%);
+      color: #fff;
+      min-height: 64px;
+      font-size: 1.06rem;
+      box-shadow: 0 10px 22px rgba(183, 52, 52, 0.22);
+      border: 1px solid rgba(167, 59, 59, 0.2);
+    }
+
+    .schedule-content,
+    .settings-content {
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .screen-header {
+      margin: 0 0 18px;
+      font-size: clamp(1.8rem, 2.2vw, 2.3rem);
+      letter-spacing: -0.04em;
+      color: var(--ink);
+    }
+
+    .schedule-card,
+    .settings-card {
+      background: var(--panel);
+      border: 1px solid rgba(65, 105, 174, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 8px 24px rgba(46, 81, 128, 0.06);
+      padding: 20px;
+    }
+
+    .reminder-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: linear-gradient(180deg, #eaf2ff 0%, #eef7ff 100%);
+      border: 1px solid rgba(48, 92, 154, 0.12);
+      border-radius: 18px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .reminder-pill {
+      padding: 7px 12px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+
+    .check-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .check-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      background: #f7faff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 15px 16px;
+    }
+
+    .check-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .check-item span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .check-status {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 0.77rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .check-status.upcoming {
+      background: #e8f2ff;
+      color: var(--primary);
+    }
+
+    .check-status.completed {
+      background: #eaf8ef;
+      color: #26855d;
+    }
+
+    .settings-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .settings-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      background: #f8fbff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+
+    .settings-row h4 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .settings-row p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .toggle-chip {
+      min-width: 76px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .safety-box {
+      margin-top: 14px;
+      border-left: 4px solid #79b7dd;
+      background: linear-gradient(180deg, #edf8ff 0%, #f3fbff 100%);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.94rem;
+      color: var(--ink);
+    }
+
+    .bottom-nav {
+      position: sticky;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(103, 127, 165, 0.16);
+      padding: 10px 12px 14px;
+      box-shadow: 0 -8px 24px rgba(23, 56, 98, 0.05);
+    }
+
+    .nav-item {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 62px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    }
+
+    .nav-item:hover {
+      transform: translateY(-1px);
+    }
+
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(180deg, #edf5ff 0%, #e4f0ff 100%);
+      color: var(--primary);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 25, 37, 0.46);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+    }
+
+    .modal-overlay.hidden {
+      display: none;
+    }
+
+    .modal-card {
+      width: min(420px, 100%);
+      background: #fff;
+      border-radius: 22px;
+      padding: 22px 20px 18px;
+      border: 1px solid rgba(18, 64, 122, 0.12);
+      box-shadow: 0 16px 60px rgba(25, 40, 63, 0.22);
+    }
+
+    .modal-title {
+      margin: 0 0 18px;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      appearance: none;
+      border: 0;
+      min-width: 112px;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .modal-btn.cancel {
+      background: #edf2f7;
+      color: var(--ink);
+    }
+
+    .modal-btn.confirm {
+      background: linear-gradient(180deg, #4b90de 0%, #3677c8 100%);
+      color: white;
+    }
+
+    @media (max-width: 860px) {
+      body {
+        padding: 12px;
+      }
+
+      .app {
+        min-height: 100vh;
+        border-radius: 0;
+      }
+
+      .app-header {
+        grid-template-columns: 1fr auto;
+      }
+
+      .connection-status {
+        grid-column: 1 / -1;
+        justify-self: start;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .reposition-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    :root {
+      --ink: #17344c;
+      --muted: #718397;
+      --primary: #256b73;
+      --primary-soft: #e3f2f1;
+      --line: #e5ebef;
+      --radius: 20px;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: #f4f7f8;
+      color: var(--ink);
+    }
+
+    body {
+      align-items: flex-start;
+      padding: 24px;
+    }
+
+    button { font: inherit; }
+
+    .app {
+      width: min(1440px, 100%);
+      min-height: calc(100vh - 48px);
+      background: #f8fafb;
+      border: 1px solid #e8edef;
+      border-radius: 26px;
+      box-shadow: 0 20px 60px rgba(27, 52, 70, 0.1);
+      backdrop-filter: none;
+    }
+
+    .app-header {
+      grid-template-columns: 1fr auto auto;
+      gap: 16px;
+      min-height: 82px;
+      padding: 16px 32px;
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 1px 0 var(--line);
+    }
+
+    .brand {
+      display: block;
+      font-size: 1.65rem;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      color: #18334a;
+    }
+
+    .brand span { color: #2a8184; }
+
+    .brand small {
+      display: block;
+      margin-top: 6px;
+      color: #8493a0;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+    }
+
+    .connection-status {
+      justify-self: end;
+      gap: 9px;
+      padding: 9px 13px;
+      color: #226655;
+      background: #edf8f3;
+      border: 1px solid #d8ede3;
+      font-size: 0.82rem;
+      box-shadow: none;
+    }
+
+    .connection-status svg { width: 16px; height: 16px; }
+    .connection-status.is-disconnected { color: #876a38; background: #fff8e9; border-color: #f1e5c9; }
+    .connection-status.is-error { color: #a24444; background: #fff0f0; border-color: #f3d5d5; }
+
+    .connection-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #39a77b;
+      box-shadow: 0 0 0 3px rgba(57, 167, 123, 0.12);
+    }
+
+    .is-disconnected .connection-dot { background: #d19c3f; box-shadow: 0 0 0 3px rgba(209, 156, 63, 0.12); }
+    .is-error .connection-dot { background: #cf5b5b; box-shadow: 0 0 0 3px rgba(207, 91, 91, 0.12); }
+
+    .connect-button {
+      appearance: none;
+      border: 0;
+      border-radius: 11px;
+      padding: 10px 15px;
+      color: #fff;
+      background: #256b73;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .connect-button:hover { background: #1c5960; transform: translateY(-1px); }
+    .connect-button:disabled { cursor: wait; opacity: 0.7; transform: none; }
+
+    .menu-button { display: none; }
+
+    .screen {
+      flex: 1;
+      padding: 32px 36px 28px;
+    }
+
+    .screen.active { display: block; }
+    .dashboard-content { max-width: 1220px; margin: 0 auto; }
+
+    .welcome-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: #56817f;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .welcome-row h1 {
+      margin: 0;
+      font-size: clamp(1.65rem, 2.4vw, 2.1rem);
+      letter-spacing: -0.045em;
+    }
+
+    .welcome-copy {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .room-select {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .metric-card {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-height: 92px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(28, 54, 72, 0.025);
+    }
+
+    .metric-icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 42px;
+      height: 42px;
+      color: #367a76;
+      background: #edf6f4;
+      border-radius: 13px;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .metric-label {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .metric-value {
+      margin: 0;
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 750;
+    }
+
+    .metric-value.good { color: #27805e; }
+
+    .dashboard-grid {
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .card, .reposition-card {
+      padding: 20px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 5px 18px rgba(28, 54, 72, 0.035);
+    }
+
+    .card-title { margin-bottom: 12px; font-size: 1rem; }
+    .mini-bed-icon { background: #edf6f4; color: #327a76; }
+
+    .bed-illustration {
+      height: 142px;
+      background: linear-gradient(135deg, #f1f7f7, #e9f1f5);
+      border-color: #e5edef;
+      border-radius: 16px;
+    }
+
+    .bed-base { background: linear-gradient(90deg, #8aaeb0, #527c84); }
+    .bed-mattress { background: linear-gradient(180deg, #fff 0%, #e3eded 100%); }
+    .head-section { background: linear-gradient(180deg, #fdfefe 0%, #dbe9e9 100%); }
+    .leg-rail { background: rgba(52, 93, 100, 0.3); }
+
+    .bed-position {
+      margin: 12px 0 16px;
+      font-size: 0.97rem;
+    }
+
+    .bed-action-grid { gap: 9px; }
+    .bed-btn, .view-details, .reposition-btn {
+      color: #315766;
+      background: #f6f9fa;
+      border-color: #e2eaed;
+      border-radius: 11px;
+      font-size: 0.83rem;
+      padding: 10px;
+    }
+
+    .bed-btn.primary {
+      color: #225f63;
+      background: #e8f4f2;
+      border-color: #d8eae7;
+    }
+
+    .status-row {
+      margin-top: 15px;
+      padding-top: 13px;
+      font-size: 0.84rem;
+    }
+
+    .status-pill { min-width: 76px; padding: 6px 10px; font-size: 0.8rem; }
+
+    .pressure-title { font-size: 1rem; }
+
+    .body-map {
+      width: min(100%, 220px);
+      height: 226px;
+      background: linear-gradient(180deg, #f5f8f9, #eef4f5);
+      border: 1px solid #e8eef0;
+      border-radius: 15px;
+    }
+
+    .body-map::before {
+      width: 92px;
+      height: 198px;
+      background: #fff;
+      border: 1px solid rgba(79, 111, 125, 0.12);
+    }
+
+    .head-zone { background: #9bd9c3; }
+    .shoulder-zone { background: #e8d27c; }
+    .torso-zone { background: #efb66f; }
+    .hip-zone { background: #e98b65; }
+    .leg-zone { background: #9bd9c3; }
+
+    .pressure-actions { justify-content: flex-start; margin-top: 6px; }
+    .pressure-note { margin-top: 10px; font-size: 0.81rem; }
+
+    .reposition-card { margin-top: 18px; }
+    .section-label { margin-bottom: 5px; font-size: 1rem; }
+    .section-subtitle { margin: 0 0 14px; color: var(--muted); font-size: 0.82rem; }
+    .reposition-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+    .reposition-btn { padding: 12px 9px; font-size: 0.8rem; }
+
+    .stop-btn {
+      grid-column: auto;
+      min-height: 0;
+      padding: 12px 9px;
+      border-radius: 11px;
+      background: #fff4f2;
+      border: 1px solid #f4dfdc;
+      box-shadow: none;
+      color: #a84e47;
+      font-size: 0.8rem;
+    }
+
+    .demo-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-top: 16px;
+      padding: 11px 13px;
+      color: #6e7480;
+      background: #f7f8f8;
+      border: 1px solid #eceff0;
+      border-radius: 12px;
+      font-size: 0.77rem;
+      line-height: 1.45;
+    }
+
+    .demo-note strong { color: #485c68; }
+
+    .bottom-nav {
+      position: sticky;
+      bottom: 0;
+      z-index: 5;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      padding: 8px 20px 10px;
+      background: rgba(255, 255, 255, 0.96);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -5px 16px rgba(27, 52, 70, 0.035);
+    }
+
+    .nav-item {
+      min-height: 52px;
+      flex-direction: row;
+      gap: 8px;
+      font-size: 0.82rem;
+      border-radius: 11px;
+    }
+
+    .nav-item.active {
+      color: #286c70;
+      background: #edf6f4;
+      box-shadow: none;
+    }
+
+    .schedule-content, .settings-content { max-width: 900px; }
+    .screen-header { font-size: 1.8rem; }
+
+    .screen[hidden] { display: none !important; }
+
+    :focus-visible {
+      outline: 3px solid rgba(37, 107, 115, 0.35);
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 860px) {
+      body { padding: 0; }
+      .app { min-height: 100vh; border-radius: 0; }
+      .app-header { display: flex; flex-wrap: wrap; padding: 14px 18px; }
+      .brand { flex: 1 1 180px; }
+      .connection-status { grid-column: auto; justify-self: end; width: auto; }
+      .connect-button { flex: 0 0 auto; width: auto; padding: 9px 11px; font-size: 0.75rem; }
+      .screen { padding: 24px 18px 28px; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .reposition-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stop-btn { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 520px) {
+      .app-header { gap: 10px; }
+      .brand { font-size: 1.4rem; }
+      .brand small { font-size: 0.55rem; }
+      .connection-status { padding: 8px 10px; font-size: 0.72rem; }
+      .connection-status svg { width: 14px; height: 14px; }
+      .connect-button { flex: 1 0 100%; }
+      .welcome-row { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .metric-grid { gap: 9px; }
+      .metric-card { min-height: 80px; gap: 9px; padding: 11px; }
+      .metric-icon { flex-basis: 34px; height: 34px; font-size: 1rem; }
+      .metric-value { font-size: 0.88rem; }
+      .metric-label { font-size: 0.69rem; }
+      .bottom-nav { gap: 3px; padding: 7px 5px calc(7px + env(safe-area-inset-bottom)); }
+      .nav-item { flex-direction: column; gap: 3px; min-height: 54px; font-size: 0.64rem; }
+      .nav-item svg { width: 19px; height: 19px; }
+    }
+
+    .source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      color: #725d35;
+      background: #fff6e4;
+      border: 1px solid #f2e5c8;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .source-badge.unavailable {
+      color: #656f79;
+      background: #f0f3f5;
+      border-color: #e3e8eb;
+    }
+
+    .connection-status.is-error .connection-dot { background: #cf5b5b; }
+    .welcome-row { align-items: flex-start; }
+    .room-select { display: none; }
+
+    .patient-workspace {
+      display: grid;
+      grid-template-columns: minmax(245px, 0.74fr) minmax(0, 2fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .capability-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .capability-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-height: 158px;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    .capability-card h3 { margin: 0 0 7px; font-size: 0.85rem; }
+    .capability-card p { flex: 1; margin: 8px 0 12px; color: var(--muted); font-size: 0.74rem; line-height: 1.5; }
+    .capability-card .action-button { min-height: 34px; padding: 7px 10px; font-size: 0.73rem; }
+    .capability-heading { margin: 22px 0 4px; font-size: 1rem; }
+    .capability-intro { margin: 0; color: var(--muted); font-size: 0.77rem; line-height: 1.5; }
+
+    .data-status-legend {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: -8px 0 18px;
+      padding: 10px 12px;
+      color: #596d78;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-size: 0.74rem;
+      line-height: 1.45;
+    }
+
+    .patient-queue, .workflow-card {
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 5px 18px rgba(28, 54, 72, 0.035);
+    }
+
+    .queue-heading, .card-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 12px;
+      font-size: 0.98rem;
+    }
+
+    .patient-search, .form-control {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 12px;
+      color: var(--ink);
+      background: #fbfcfc;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    .patient-list {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .patient-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      padding: 11px;
+      color: var(--ink);
+      text-align: left;
+      background: #fff;
+      border: 1px solid #e9eef0;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .patient-option:hover, .patient-option[aria-pressed="true"] {
+      background: #f0f7f6;
+      border-color: #b9d9d5;
+    }
+
+    .patient-name { display: block; font-size: 0.84rem; font-weight: 750; }
+    .patient-room { display: block; margin-top: 3px; color: var(--muted); font-size: 0.73rem; }
+    .queue-priority { color: #8c5e22; font-size: 0.68rem; font-weight: 800; white-space: nowrap; }
+
+    .patient-detail { min-width: 0; }
+    .patient-detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .patient-detail-header h2 { margin: 0; font-size: 1.15rem; letter-spacing: -0.02em; }
+    .patient-detail-header p { margin: 5px 0 0; color: var(--muted); font-size: 0.82rem; }
+    .patient-data-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 14px; }
+    .patient-data-item { min-width: 0; padding: 11px; background: #f8fafb; border: 1px solid #edf0f1; border-radius: 12px; }
+    .patient-data-item span { display: block; color: var(--muted); font-size: 0.68rem; }
+    .patient-data-item strong { display: block; margin-top: 5px; font-size: 0.82rem; }
+    .patient-data-item .source-badge { margin-top: 7px; }
+
+    .attention-list { display: grid; gap: 8px; margin-top: 10px; }
+    .attention-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: #fafcfc; border: 1px solid #edf0f1; border-radius: 11px; }
+    .attention-item strong { font-size: 0.81rem; }
+    .attention-item span { display: block; margin-top: 3px; color: var(--muted); font-size: 0.71rem; }
+    .attention-item button { flex: 0 0 auto; padding: 7px 9px; border: 1px solid #dfe8e9; border-radius: 9px; color: #315766; background: #fff; font-weight: 700; cursor: pointer; }
+    .empty-state { padding: 16px; color: var(--muted); background: #f8fafb; border-radius: 11px; font-size: 0.83rem; }
+
+    .dashboard-section-title { margin: 22px 0 10px; font-size: 1rem; }
+    .source-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+    .bed-status-unavailable { color: #656f79; background: #f0f3f5; }
+    .bed-action-grid button:disabled, .reposition-grid button:disabled { cursor: not-allowed; opacity: 0.55; filter: grayscale(0.25); transform: none; box-shadow: none; }
+    .bed-illustration { display: grid; place-items: center; }
+    .pressure-card .body-map { display: none; }
+    .pressure-unavailable {
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+      padding: 20px;
+      color: #687985;
+      text-align: center;
+      background: repeating-linear-gradient(135deg, #f8fafb, #f8fafb 12px, #f2f5f6 12px, #f2f5f6 24px);
+      border: 1px dashed #cfd9de;
+      border-radius: 15px;
+    }
+
+    .pressure-unavailable strong { display: block; margin-bottom: 7px; color: #415765; }
+    .pressure-unavailable p { max-width: 330px; margin: 0; font-size: 0.8rem; line-height: 1.5; }
+    .pressure-note { color: var(--muted); }
+
+    .screen-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .screen-header-row .screen-header { margin: 0; }
+    .screen-intro { margin: 7px 0 0; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+    .workflow-stack { display: grid; gap: 14px; }
+    .workflow-card h2 { margin: 0 0 8px; font-size: 1rem; }
+    .workflow-copy { margin: 0 0 12px; color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
+    .privacy-callout, .safety-callout { padding: 12px 14px; color: #4d5f68; background: #f4f8f8; border: 1px solid #e2ecec; border-radius: 11px; font-size: 0.78rem; line-height: 1.5; }
+    .consent-row { display: flex; align-items: flex-start; gap: 10px; margin: 14px 0; color: #405461; font-size: 0.83rem; line-height: 1.45; }
+    .consent-row input { width: 18px; height: 18px; flex: 0 0 auto; accent-color: #256b73; }
+    .photo-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 12px; }
+    .action-button {
+      min-height: 40px;
+      padding: 9px 13px;
+      color: #fff;
+      background: #256b73;
+      border: 0;
+      border-radius: 10px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    .action-button.secondary { color: #315766; background: #f3f7f8; border: 1px solid #e1e9eb; }
+    .action-button.danger { color: #a84e47; background: #fff4f2; border: 1px solid #f1ddda; }
+    .action-button:disabled { cursor: not-allowed; opacity: 0.5; }
+    .photo-preview { display: none; width: min(100%, 620px); max-height: 440px; object-fit: contain; margin-top: 14px; background: #f1f4f5; border: 1px solid var(--line); border-radius: 12px; }
+    .photo-preview.visible { display: block; }
+    .file-name { color: var(--muted); font-size: 0.75rem; }
+    .guided-check { display: grid; gap: 12px; }
+    .guided-check fieldset { display: grid; gap: 9px; margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 11px; }
+    .guided-check legend { padding: 0 6px; font-size: 0.82rem; font-weight: 750; }
+    .radio-option { display: flex; align-items: flex-start; gap: 9px; font-size: 0.82rem; line-height: 1.45; }
+    .radio-option input { margin-top: 3px; accent-color: #256b73; }
+    .guidance-result { display: none; padding: 13px 14px; color: #435964; background: #f4f8f8; border: 1px solid #e0e9eb; border-radius: 11px; font-size: 0.82rem; line-height: 1.5; }
+    .guidance-result.visible { display: block; }
+    .schedule-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .schedule-controls label { font-size: 0.8rem; font-weight: 700; }
+    .countdown { font-variant-numeric: tabular-nums; font-size: 1.3rem; font-weight: 800; }
+    .history-list { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .history-list li { padding: 10px 12px; background: #f8fafb; border: 1px solid #edf0f1; border-radius: 10px; font-size: 0.8rem; }
+    .history-list time { display: block; margin-top: 4px; color: var(--muted); font-size: 0.72rem; }
+    .settings-grid { margin-top: 0; }
+    .integration-checklist { display: grid; gap: 9px; margin: 12px 0 0; padding-left: 20px; color: #536873; font-size: 0.8rem; line-height: 1.5; }
+    .bottom-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+    @media (max-width: 860px) {
+      .patient-workspace { grid-template-columns: 1fr; }
+      .patient-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .patient-data-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .capability-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bottom-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3px; padding-left: 6px; padding-right: 6px; }
+      .nav-item { flex-direction: column; gap: 3px; font-size: 0.65rem; }
+    }
+
+    @media (max-width: 520px) {
+      .patient-list { grid-template-columns: 1fr; }
+      .patient-detail-header { flex-direction: column; }
+      .screen-header-row { flex-direction: column; }
+      .capability-grid { grid-template-columns: 1fr; }
+      .capability-card { min-height: 0; }
+      .bottom-nav { overflow-x: auto; }
+      .nav-item { min-width: 52px; font-size: 0.59rem; }
+    }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#top" aria-label="Common Ground home"><span class="brand-mark" aria-hidden="true">c</span> Common Ground</a>
-    <nav class="nav" aria-label="Main navigation">
-      <a href="#story">Our place</a>
-      <a href="#menu">The menu</a>
-      <a class="nav-cta" href="#visit">Come by <span aria-hidden="true">-&gt;</span></a>
-    </nav>
-  </header>
-  <main id="top">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <div class="eyebrow">Coffee for the in-between</div>
-        <h1 id="hero-title">Common<br>Ground</h1>
-        <p>A neighborhood coffee bar for good coffee, fresh baking, and mornings that don't need to be rushed.</p>
-        <div class="hero-actions">
-          <a class="button button-light" href="#menu">Take a look at the menu <span aria-hidden="true">&nbsp;-&gt;</span></a>
-          <a class="text-link" href="#story">Our little story</a>
+  <div class="app">
+    <header class="app-header" aria-label="BedWise care dashboard">
+      <div class="brand">Bed<span>Wise</span><small>SMART BED MONITORING</small></div>
+      <div class="connection-status is-error" id="connection-status" aria-live="polite" aria-label="Device integration unavailable">
+        <span class="connection-dot" aria-hidden="true"></span>
+        <span id="connection-label">Integration unavailable</span>
+      </div>
+      <button class="connect-button" id="connect-device" type="button" data-tab="settings">Device setup</button>
+    </header>
+
+    <main class="screen active" data-screen="home">
+      <div class="dashboard-content">
+        <section class="welcome-row" aria-label="Care overview">
+          <div>
+            <p class="eyebrow">Care team overview · DEMO PATIENTS</p>
+            <h1>Attention queue</h1>
+            <p class="welcome-copy">Prioritized by the next caregiver check time. All patient data shown here is illustrative.</p>
+          </div>
+          <button class="action-button" type="button" data-tab="patients">View patient list</button>
+        </section>
+        <aside class="data-status-legend" aria-label="Data status key">
+          <strong>Status key:</strong>
+          <span class="source-badge">Demo · illustrative</span>
+          <span class="source-badge unavailable">Unavailable · no trusted feed</span>
+          <span>Live readings are not connected. Stale-data detection is not configured.</span>
+        </aside>
+
+        <section class="metric-grid" aria-label="Patient overview">
+          <article class="metric-card">
+            <span class="metric-icon" aria-hidden="true">✓</span>
+            <div><p class="metric-label">Selected patient</p><p class="metric-value" id="selected-patient-summary">—</p><span class="source-badge">Demo</span></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon" aria-hidden="true">↔</span>
+            <div><p class="metric-label">Position reading</p><p class="metric-value" id="position-summary">Unavailable</p><span class="source-badge unavailable">Unavailable</span></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon" aria-hidden="true">◷</span>
+            <div><p class="metric-label">Time in position</p><p class="metric-value" id="duration-summary">Unavailable</p><span class="source-badge unavailable">Unavailable</span></div>
+          </article>
+          <article class="metric-card">
+            <span class="metric-icon" aria-hidden="true">♡</span>
+            <div><p class="metric-label">Pressure assessment</p><p class="metric-value" id="risk-summary">Not assessed</p><span class="source-badge unavailable">Unavailable</span></div>
+          </article>
+        </section>
+
+        <section class="workflow-card" aria-labelledby="attention-heading">
+          <div class="card-heading"><h2 id="attention-heading">Needs attention first</h2><span class="source-badge">Demo schedule</span></div>
+          <div class="attention-list" id="attention-queue" aria-live="polite"></div>
+        </section>
+
+        <section class="workflow-card" style="margin-top:16px" aria-label="Caregiver tools">
+          <div class="card-heading"><h2>Caregiver tools</h2><span class="source-badge unavailable">Live device data unavailable</span></div>
+          <p class="workflow-copy">Use the caregiver photo check to document an observation, or review device requirements. This prototype does not read sensors, calculate risk, or send bed commands.</p>
+          <div class="photo-actions">
+            <button class="action-button" type="button" data-tab="photo-check">Start photo check</button>
+            <button class="action-button secondary" type="button" data-tab="devices">Bed &amp; pressure status</button>
+            <button class="action-button secondary" type="button" data-tab="schedule">Care plan &amp; reminders</button>
+          </div>
+        </section>
+
+        <section aria-labelledby="capabilities-heading">
+          <h2 class="capability-heading" id="capabilities-heading">What’s in this prototype</h2>
+          <p class="capability-intro">See what you can try now and what needs real clinical or device integration.</p>
+          <div class="capability-grid">
+            <article class="capability-card">
+              <h3>Photo positioning check</h3>
+              <span class="source-badge">Caregiver-led</span>
+              <p>Capture or select a photo, confirm consent, check in person, and get cautious next steps. No automated image assessment.</p>
+              <button class="action-button" type="button" data-tab="photo-check">Open photo check</button>
+            </article>
+            <article class="capability-card">
+              <h3>Pressure-injury prevention</h3>
+              <span class="source-badge">Demo workflow</span>
+              <p>Use caregiver checks, a session reminder, and acknowledgment history. No calculated risk or sensor-based prevention.</p>
+              <button class="action-button secondary" type="button" data-tab="schedule">Open care plan</button>
+            </article>
+            <article class="capability-card">
+              <h3>Multiple patients</h3>
+              <span class="source-badge">Sample profiles</span>
+              <p>Search patients, choose a profile, and prioritize the queue by each demo check time.</p>
+              <button class="action-button secondary" type="button" data-tab="patients">Manage patients</button>
+            </article>
+            <article class="capability-card">
+              <h3>Reposition reminders</h3>
+              <span class="source-badge">Session only</span>
+              <p>See a countdown and record a caregiver acknowledgment. No background or push alerts.</p>
+              <button class="action-button secondary" type="button" data-tab="schedule">View reminders</button>
+            </article>
+            <article class="capability-card">
+              <h3>Connected bed controls</h3>
+              <span class="source-badge unavailable">Unavailable</span>
+              <p>Controls stay disabled until supported hardware, protocol, safety checks, and command acknowledgment are available.</p>
+              <button class="action-button secondary" type="button" data-tab="devices">View requirements</button>
+            </article>
+            <article class="capability-card">
+              <h3>Patient monitoring</h3>
+              <span class="source-badge unavailable">No live sensor</span>
+              <p>Position, duration, and pressure data are unavailable; this app does not produce live alerts or a risk score.</p>
+              <button class="action-button secondary" type="button" data-tab="devices">View data status</button>
+            </article>
+            <article class="capability-card">
+              <h3>iPhone experience</h3>
+              <span class="source-badge">Responsive web</span>
+              <p>Mobile-friendly layout and browser camera/file capture. This prototype is not a native iPhone app.</p>
+              <button class="action-button secondary" type="button" data-tab="photo-check">Try mobile photo flow</button>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <main class="screen" data-screen="patients">
+      <div class="dashboard-content">
+        <div class="screen-header-row">
+          <div><h1 class="screen-header">Patients</h1><p class="screen-intro">Select a patient to view their demo profile and caregiver schedule. Search is limited to this sample list.</p></div>
+          <span class="source-badge">Demo patient data</span>
+        </div>
+        <div class="patient-workspace">
+          <aside class="patient-queue" aria-label="Patient list">
+            <h2 class="queue-heading">Patient list</h2>
+            <label class="sr-only" for="patient-search">Search patients by name or room</label>
+            <input class="patient-search" type="search" id="patient-search" placeholder="Search name or room…" autocomplete="off" />
+            <ul class="patient-list" id="patient-list"></ul>
+          </aside>
+          <section class="patient-detail workflow-card" id="patient-detail" aria-live="polite"></section>
         </div>
       </div>
-      <div class="hero-note">Portland, Oregon&nbsp; | &nbsp;Est. 2018</div>
-    </section>
-    <section class="ticker" id="visit" aria-label="Visit information">
-      <div class="ticker-item"><span class="ticker-label">Find your way</span><span class="ticker-value">NE Alberta, Portland</span></div>
-      <div class="ticker-item"><span class="ticker-label">Monday - Friday</span><span class="ticker-value">7:00 - 16:00</span></div>
-      <div class="ticker-item"><span class="ticker-label">Saturday - Sunday</span><span class="ticker-value">8:00 - 16:00</span></div>
-      <div class="ticker-item"><span class="ticker-label">The good stuff</span><span class="ticker-value">Coffee, made kindly</span></div>
-    </section>
-    <section class="section intro" id="story">
-      <p class="section-kicker">A little more human</p>
-      <div>
-        <h2>Good things happen when we slow down.</h2>
-        <p class="intro-copy">We work with small farms, bake in our own kitchen, and make room at the table for everyone. Drop in on your way somewhere, or stay until you remember where you were going.</p>
+    </main>
+
+    <main class="screen" data-screen="photo-check">
+      <div class="dashboard-content">
+        <div class="screen-header-row">
+          <div><h1 class="screen-header">Caregiver photo check</h1><p class="screen-intro">Document a bedside observation and use the patient’s care plan to guide any correction.</p></div>
+          <span class="source-badge">Caregiver-led · not AI</span>
+        </div>
+        <div class="workflow-stack">
+          <section class="workflow-card">
+            <h2>1. Consent and photo</h2>
+            <p class="workflow-copy">Photos stay in this browser session only. They are not uploaded or saved. Get the patient’s consent before taking or choosing an image; follow your facility’s photo policy.</p>
+            <div class="privacy-callout"><strong>Privacy:</strong> No server upload, account storage, or automatic image analysis is implemented. Remove the photo when finished; it is also cleared when you change patients or close/reload this page. This prototype has no sign-in, access controls, or secure medical-record storage; use only synthetic images on an approved, non-shared device.</div>
+            <label class="consent-row"><input type="checkbox" id="photo-consent" /><span>I confirm the patient has consented to this photo, or I am authorized under the applicable care policy.</span></label>
+            <label for="photo-input"><strong>Choose or capture a photo</strong></label>
+            <input class="form-control" type="file" id="photo-input" accept="image/*" capture="environment" disabled />
+            <div class="photo-actions">
+              <button class="action-button danger" type="button" id="delete-photo" disabled>Remove photo</button>
+              <span class="file-name" id="photo-file-name">No photo selected</span>
+            </div>
+            <img class="photo-preview" id="photo-preview" alt="Private local preview of caregiver-selected positioning photo" />
+          </section>
+
+          <section class="workflow-card">
+            <h2>2. Review in person</h2>
+            <p class="workflow-copy">The app does not interpret the photo. Check the patient directly, compare with their individualized care plan, and use clinical judgment.</p>
+            <form class="guided-check" id="photo-assessment-form">
+              <fieldset>
+                <legend>After looking at the photo and checking at bedside, what did you observe?</legend>
+                <label class="radio-option"><input type="radio" name="observation" value="aligned" />Position appears consistent with the care plan; patient is comfortable.</label>
+                <label class="radio-option"><input type="radio" name="observation" value="adjust" />Position needs review against the care plan; I will get trained assistance if needed.</label>
+                <label class="radio-option"><input type="radio" name="observation" value="unsure" />I am unsure or cannot safely assess; I will ask the responsible clinician/caregiver.</label>
+              </fieldset>
+              <label class="consent-row"><input type="checkbox" id="in-person-check" /><span>I checked the patient in person and reviewed their care plan. A photo alone is not the assessment.</span></label>
+              <div class="guidance-result" id="guidance-result" role="status" aria-live="polite"></div>
+              <div class="photo-actions">
+                <button class="action-button" type="button" id="show-guidance" disabled>Show cautious next steps</button>
+                <button class="action-button secondary" type="button" id="record-photo-check" disabled>Record caregiver check</button>
+              </div>
+            </form>
+          </section>
+        </div>
       </div>
-    </section>
-    <section class="menu" id="menu">
-      <div class="menu-head">
-        <div><p class="section-kicker">Made here, poured with care</p><h2>A few favorites</h2></div>
-        <a class="text-link" href="#visit">Come try one&nbsp; -&gt;</a>
+    </main>
+
+    <main class="screen" data-screen="devices">
+      <div class="dashboard-content">
+        <div class="screen-header-row">
+          <div><h1 class="screen-header">Bed &amp; pressure status</h1><p class="screen-intro">Device readings and commands are unavailable in this prototype. No arbitrary Bluetooth pairing is offered.</p></div>
+          <span class="source-badge unavailable">Unavailable</span>
+        </div>
+        <div class="dashboard-grid">
+          <section class="workflow-card" aria-label="Bed position and controls">
+            <div class="card-heading"><h2>Bed position</h2><span class="source-badge unavailable">No device link</span></div>
+            <div class="bed-illustration" aria-hidden="true"><div class="armrest"></div><div class="bed-base"></div><div class="bed-mattress"></div><div class="head-section"></div><div class="leg-rail"></div></div>
+            <p class="workflow-copy" style="margin-top:12px">Actual bed position: <strong>Unavailable</strong>. No bed command can be sent or confirmed.</p>
+            <div class="bed-action-grid">
+              <button class="bed-btn" disabled>Raise head</button><button class="bed-btn" disabled>Lower head</button>
+              <button class="bed-btn" disabled>Raise legs</button><button class="bed-btn" disabled>Lower legs</button>
+              <button class="bed-btn" disabled style="grid-column:1 / -1">Flat position</button>
+            </div>
+            <div class="safety-callout" style="margin-top:14px">Controls are disabled until a supported bed, verified protocol, patient-specific safety checks, and command acknowledgment are implemented.</div>
+          </section>
+          <section class="workflow-card" aria-label="Pressure map and assessment">
+            <div class="card-heading"><h2>Pressure map</h2><span class="source-badge unavailable">No sensor data</span></div>
+            <div class="pressure-unavailable"><div><strong>Pressure map unavailable</strong><p>No pressure sensor is connected. No distribution graphic or calculated risk is shown.</p></div></div>
+            <div class="safety-callout" style="margin-top:14px">Perform skin checks and follow the patient’s care plan. This dashboard does not assess pressure injury risk or replace clinical judgment.</div>
+          </section>
+        </div>
+        <section class="workflow-card" style="margin-top:16px">
+          <h2>Integration status</h2>
+          <p class="workflow-copy">No supported bed or sensor models or communication protocol have been configured. Pairing to an arbitrary Bluetooth device would not establish a safe bed integration.</p>
+          <ul class="integration-checklist">
+            <li>Document manufacturer-approved bed and pressure-sensor models and firmware.</li>
+            <li>Obtain the vendor protocol: transport, service/characteristic identifiers, data formats, authentication, and security requirements.</li>
+            <li>Validate units, calibration, patient/device association, timestamps, freshness thresholds, and disconnect behavior.</li>
+            <li>Define patient-specific authorization, contraindication checks, command bounds, stop behavior, and explicit device acknowledgment before enabling controls.</li>
+            <li>Complete clinical, privacy, accessibility, and safety validation before use with patients.</li>
+          </ul>
+        </section>
       </div>
-      <div class="menu-grid">
-        <article class="menu-item"><span class="menu-price">$4.50</span><h3>House cappuccino</h3><p>Velvety milk, our everyday espresso.</p></article>
-        <article class="menu-item"><span class="menu-price">$5.00</span><h3>Honey oat latte</h3><p>Local wildflower honey, oat milk.</p></article>
-        <article class="menu-item"><span class="menu-price">$4.00</span><h3>Slow pour</h3><p>Today's single origin, brewed to order.</p></article>
-        <article class="menu-item"><span class="menu-price">$4.25</span><h3>Cardamom knot</h3><p>Twisted by hand, baked before sunrise.</p></article>
-        <article class="menu-item"><span class="menu-price">$5.50</span><h3>Seasonal toast</h3><p>Good sourdough, whatever's ripe.</p></article>
-        <article class="menu-item"><span class="menu-price">$3.75</span><h3>Olive oil cake</h3><p>A soft slice with a little citrus.</p></article>
+    </main>
+
+    <main class="screen" data-screen="schedule">
+      <div class="dashboard-content">
+        <div class="screen-header-row">
+          <div><h1 class="screen-header">Care plan &amp; reminders</h1><p class="screen-intro">Session-only reminders for the selected demo patient. Confirm checks in person and follow the clinician-approved plan.</p></div>
+          <span class="source-badge">Demo schedule</span>
+        </div>
+        <div class="workflow-stack">
+          <section class="workflow-card">
+            <div class="card-heading"><h2 id="schedule-patient-name">Selected patient</h2><span class="source-badge">Patient-specific</span></div>
+            <p class="workflow-copy" id="schedule-plan">Reminder plan</p>
+            <div class="schedule-controls">
+              <div><div class="metric-label">Next caregiver check</div><div class="countdown" id="reminder-countdown" aria-live="polite">—</div><div class="workflow-copy" id="reminder-due-label" style="margin:4px 0 0">—</div></div>
+              <button class="action-button" type="button" id="acknowledge-check">Record check completed</button>
+            </div>
+            <div class="safety-callout" style="margin-top:14px">This is a browser-session reminder, not a clinical recommendation or background alert. It will not notify you if this page is closed.</div>
+          </section>
+          <section class="workflow-card">
+            <h2>Session check history</h2>
+            <p class="workflow-copy">A check is recorded only when a caregiver explicitly confirms completion. Records are held in memory for this page session and are not a durable medical record.</p>
+            <ul class="history-list" id="check-history"></ul>
+          </section>
+        </div>
       </div>
-    </section>
-    <section class="newsletter" aria-labelledby="newsletter-title">
-      <div><h2 id="newsletter-title">A good note, now and then.</h2><p>New beans, fresh bakes, and the occasional reason to take the long way home.</p></div>
-      <form>
-        <div class="signup"><input type="email" name="email" placeholder="Your email address" aria-label="Your email address" required><button type="submit" aria-label="Sign up">-&gt;</button></div>
-        <div class="signup-status" role="status" aria-live="polite"></div>
-      </form>
-    </section>
-  </main>
-  <footer>
-    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">c</span> Common Ground</a>
-    <span>Good coffee. Good company. No hurry.</span>
-    <div class="footer-meta"><a href="mailto:hello@commonground.example">Say hello</a><span>(c) 2026 Common Ground</span></div>
-  </footer>
+    </main>
+
+    <main class="screen" data-screen="settings">
+      <div class="settings-content">
+        <h1 class="screen-header">Settings</h1>
+        <div class="settings-card">
+          <div class="settings-grid">
+            <div class="settings-row">
+              <div>
+                <h4>Bed and sensor integration</h4>
+                <p>Unavailable · no supported model or protocol configured</p>
+              </div>
+              <span class="toggle-chip">Unavailable</span>
+            </div>
+
+            <div class="settings-row">
+              <div>
+                <h4>Caregiver check interval</h4>
+                <p>Demo-only timer; changing it does not edit a clinical care plan</p>
+              </div>
+              <label class="sr-only" for="interval-minutes">Interval in minutes</label>
+              <input class="form-control" style="max-width:120px" type="number" id="interval-minutes" min="1" max="1440" value="120" />
+            </div>
+
+            <div class="settings-row">
+              <div>
+                <h4>Set reminder interval</h4>
+                <p>Use the patient-specific plan unless the responsible clinician directs otherwise</p>
+              </div>
+              <button class="action-button" type="button" id="save-interval">Apply interval</button>
+            </div>
+          </div>
+
+          <div class="safety-box"><strong>Privacy and safety:</strong> Demo patient details, reminder history, and photo checks are held in page memory only. Photos are not uploaded or persisted. No live pressure/risk calculation or bed movement is implemented.</div>
+          <section class="workflow-card" style="margin-top:16px">
+            <h2>Requirements before device integration</h2>
+            <ul class="integration-checklist">
+              <li>Approved bed/sensor models and vendor protocol, including GATT services/characteristics if Bluetooth LE is used.</li>
+              <li>Authenticated device identity and verified patient-device association; data units, calibration, timestamps, freshness/staleness policy.</li>
+              <li>Patient-specific command permissions and contraindication checks, command limits, stop/emergency handling, and device acknowledgment.</li>
+              <li>Clinical safety, privacy, access-control, retention/deletion, and audit requirements.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <button class="nav-item active" type="button" data-tab="home" aria-label="Home">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 10.2 12 4l8 6.2V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 20v-7h6v7" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" type="button" data-tab="patients" aria-label="Patients">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 15.5h16M6 9.5h12a2 2 0 0 1 2 2v2H4v-2a2 2 0 0 1 2-2Zm0 0V7.5h12v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Patients</span>
+      </button>
+      <button class="nav-item" type="button" data-tab="photo-check" aria-label="Photo check">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 4c-3.2 0-5.5 2.3-5.5 5.7 0 3.5 2.5 5.9 5.5 9.3 3-3.4 5.5-5.8 5.5-9.3C17.5 6.3 15.2 4 12 4Zm0 3.5a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <span>Photo check</span>
+      </button>
+      <button class="nav-item" type="button" data-tab="devices" aria-label="Bed and pressure status">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 15.5h18M5 9.5h14a3 3 0 0 1 3 3v2H2v-2a3 3 0 0 1 3-3Zm0 0V7.5h14v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Devices</span>
+      </button>
+      <button class="nav-item" type="button" data-tab="schedule" aria-label="Care plan">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 3.5v4M16 3.5v4M3.5 10h17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Care plan</span>
+      </button>
+      <button class="nav-item" type="button" data-tab="settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M10.7 4.9a1.6 1.6 0 0 1 2.6 0l.5.8a1.8 1.8 0 0 0 1.3.7l.9.1c1.2.2 2.1 1.3 2 2.5l-.1.9a1.8 1.8 0 0 0 .7 1.3l.8.5a1.6 1.6 0 0 1 0 2.6l-.8.5a1.8 1.8 0 0 0-.7 1.3l-.1.9c-.2 1.2-1.3 2.1-2.5 2l-.9-.1a1.8 1.8 0 0 0-1.3.7L13.3 19a1.6 1.6 0 0 1-2.6 0l-.5-.8a1.8 1.8 0 0 0-1.3-.7l-.9-.1c-1.2-.2-2.1-1.3-2-2.5l.1-.9a1.8 1.8 0 0 0-.7-1.3l-.8-.5a1.6 1.6 0 0 1 0-2.6l.8-.5a1.8 1.8 0 0 0 .7-1.3l.1-.9c.2-1.2 1.3-2.1 2.5-2l.9.1a1.8 1.8 0 0 0 1.3-.7l.5-.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+  </div>
+
   <script>
-    document.querySelector(".newsletter form").addEventListener("submit", (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      const status = form.querySelector(".signup-status");
-      status.textContent = `Thanks, ${form.elements.email.value}. You're on the list.`;
-      form.reset();
+    const now = Date.now();
+    const state = {
+      currentTab: 'home',
+      selectedPatientId: 'p312',
+      photoUrl: null,
+      photoFile: null,
+      guidanceShown: false,
+      checkHistory: [],
+      patients: [
+        { id: 'p312', name: 'Maya Thompson', room: '312', plan: 'Caregiver check every 2 hours', intervalMinutes: 120, nextCheckAt: now + 12 * 60 * 1000 },
+        { id: 'p208', name: 'Elliot Rivera', room: '208', plan: 'Caregiver check every 90 minutes', intervalMinutes: 90, nextCheckAt: now + 48 * 60 * 1000 },
+        { id: 'p415', name: 'Avery Chen', room: '415', plan: 'Caregiver check every 3 hours', intervalMinutes: 180, nextCheckAt: now + 92 * 60 * 1000 },
+        { id: 'p106', name: 'Sam Patel', room: '106', plan: 'Caregiver check every 2 hours', intervalMinutes: 120, nextCheckAt: now + 150 * 60 * 1000 }
+      ]
+    };
+
+    const byId = (id) => document.getElementById(id);
+    const selectedPatient = () => state.patients.find((patient) => patient.id === state.selectedPatientId);
+    const timeFormatter = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
+
+    function setTab(tabName) {
+      if (!document.querySelector(`[data-screen="${tabName}"]`)) return;
+      state.currentTab = tabName;
+      document.querySelectorAll('.screen').forEach((screen) => {
+        const active = screen.dataset.screen === tabName;
+        screen.classList.toggle('active', active);
+        screen.hidden = !active;
+      });
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        const active = item.dataset.tab === tabName;
+        item.classList.toggle('active', active);
+        if (active) item.setAttribute('aria-current', 'page');
+        else item.removeAttribute('aria-current');
+      });
+      window.scrollTo(0, 0);
+      if (tabName === 'settings') byId('interval-minutes').value = String(selectedPatient().intervalMinutes);
+    }
+
+    function formatRemaining(milliseconds) {
+      const totalSeconds = Math.max(0, Math.ceil(milliseconds / 1000));
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      return hours > 0
+        ? `${hours}h ${String(minutes).padStart(2, '0')}m`
+        : `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function renderAttentionQueue() {
+      const queue = [...state.patients].sort((a, b) => a.nextCheckAt - b.nextCheckAt);
+      const container = byId('attention-queue');
+      container.replaceChildren();
+      queue.forEach((patient) => {
+        const remaining = patient.nextCheckAt - Date.now();
+        const row = document.createElement('div');
+        row.className = 'attention-item';
+        const details = document.createElement('div');
+        const name = document.createElement('strong');
+        name.textContent = `${patient.name} · Room ${patient.room}`;
+        const due = document.createElement('span');
+        due.textContent = remaining <= 0 ? 'Caregiver check due' : `Check due in ${formatRemaining(remaining)}`;
+        const select = document.createElement('button');
+        select.type = 'button';
+        select.textContent = patient.id === state.selectedPatientId ? 'Selected' : 'Open patient';
+        select.setAttribute('aria-label', `Select ${patient.name}, room ${patient.room}`);
+        select.addEventListener('click', () => selectPatient(patient.id));
+        details.append(name, due);
+        row.append(details, select);
+        container.append(row);
+      });
+    }
+
+    function renderPatientList() {
+      const query = byId('patient-search').value.trim().toLocaleLowerCase();
+      const list = byId('patient-list');
+      list.replaceChildren();
+      const matches = state.patients.filter((patient) =>
+        `${patient.name} ${patient.room}`.toLocaleLowerCase().includes(query)
+      );
+
+      if (!matches.length) {
+        const empty = document.createElement('li');
+        empty.className = 'empty-state';
+        empty.textContent = 'No demo patients match this search.';
+        list.append(empty);
+      }
+
+      matches.sort((a, b) => a.nextCheckAt - b.nextCheckAt).forEach((patient) => {
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'patient-option';
+        button.setAttribute('aria-pressed', String(patient.id === state.selectedPatientId));
+        const description = document.createElement('span');
+        const name = document.createElement('span');
+        name.className = 'patient-name';
+        name.textContent = patient.name;
+        const room = document.createElement('span');
+        room.className = 'patient-room';
+        room.textContent = `Room ${patient.room} · demo`;
+        const priority = document.createElement('span');
+        priority.className = 'queue-priority';
+        priority.textContent = patient.nextCheckAt <= Date.now() ? 'DUE' : 'SCHEDULED';
+        description.append(name, room);
+        button.append(description, priority);
+        button.addEventListener('click', () => selectPatient(patient.id));
+        item.append(button);
+        list.append(item);
+      });
+    }
+
+    function renderPatientDetail() {
+      const patient = selectedPatient();
+      const detail = byId('patient-detail');
+      detail.replaceChildren();
+      const heading = document.createElement('div');
+      heading.className = 'patient-detail-header';
+      const copy = document.createElement('div');
+      const name = document.createElement('h2');
+      name.textContent = patient.name;
+      const room = document.createElement('p');
+      room.textContent = `Room ${patient.room} · Demo patient · no live clinical record linked`;
+      copy.append(name, room);
+      const badge = document.createElement('span');
+      badge.className = 'source-badge';
+      badge.textContent = 'Demo profile';
+      heading.append(copy, badge);
+
+      const stats = document.createElement('div');
+      stats.className = 'patient-data-grid';
+      [
+        ['Care plan', patient.plan],
+        ['Next check', patient.nextCheckAt <= Date.now() ? 'Due now' : timeFormatter.format(patient.nextCheckAt)],
+        ['Position', 'Unavailable'],
+        ['Pressure assessment', 'Not assessed']
+      ].forEach(([label, value]) => {
+        const item = document.createElement('div');
+        item.className = 'patient-data-item';
+        const title = document.createElement('span');
+        title.textContent = label;
+        const content = document.createElement('strong');
+        content.textContent = value;
+        item.append(title, content);
+        const stateBadge = document.createElement('span');
+        stateBadge.className = `source-badge ${label === 'Care plan' || label === 'Next check' ? '' : 'unavailable'}`;
+        stateBadge.textContent = label === 'Care plan' || label === 'Next check' ? 'Demo' : 'Unavailable';
+        item.append(stateBadge);
+        stats.append(item);
+      });
+
+      const actions = document.createElement('div');
+      actions.className = 'photo-actions';
+      const photoButton = document.createElement('button');
+      photoButton.className = 'action-button';
+      photoButton.type = 'button';
+      photoButton.dataset.tab = 'photo-check';
+      photoButton.textContent = 'Start photo check';
+      const scheduleButton = document.createElement('button');
+      scheduleButton.className = 'action-button secondary';
+      scheduleButton.type = 'button';
+      scheduleButton.dataset.tab = 'schedule';
+      scheduleButton.textContent = 'Open care plan';
+      actions.append(photoButton, scheduleButton);
+      detail.append(heading, stats, actions);
+    }
+
+    function renderSchedule() {
+      const patient = selectedPatient();
+      const remaining = patient.nextCheckAt - Date.now();
+      byId('schedule-patient-name').textContent = `${patient.name} · Room ${patient.room}`;
+      byId('schedule-plan').textContent = `${patient.plan}. Session timer: every ${patient.intervalMinutes} minutes (demo only; not a clinical recommendation).`;
+      byId('reminder-countdown').textContent = remaining <= 0 ? 'Due now' : formatRemaining(remaining);
+      byId('reminder-due-label').textContent = remaining <= 0
+        ? 'Caregiver acknowledgment needed'
+        : `Next check at ${timeFormatter.format(patient.nextCheckAt)}`;
+      byId('acknowledge-check').textContent = remaining <= 0 ? 'Acknowledge & record check' : 'Record check completed';
+
+      const history = byId('check-history');
+      history.replaceChildren();
+      const events = state.checkHistory.filter((entry) => entry.patientId === patient.id);
+      if (!events.length) {
+        const empty = document.createElement('li');
+        empty.className = 'empty-state';
+        empty.textContent = 'No caregiver checks recorded for this patient in this session.';
+        history.append(empty);
+      } else {
+        events.slice().reverse().forEach((entry) => {
+          const item = document.createElement('li');
+          item.textContent = `${entry.kind} · ${patient.name} · ${entry.note}`;
+          const time = document.createElement('time');
+          time.dateTime = new Date(entry.at).toISOString();
+          time.textContent = new Date(entry.at).toLocaleString();
+          item.append(time);
+          history.append(item);
+        });
+      }
+    }
+
+    function renderAll() {
+      const patient = selectedPatient();
+      byId('selected-patient-summary').textContent = patient.name;
+      byId('position-summary').textContent = 'Unavailable';
+      byId('duration-summary').textContent = 'Unavailable';
+      byId('risk-summary').textContent = 'Not assessed';
+      renderAttentionQueue();
+      renderPatientList();
+      renderPatientDetail();
+      renderSchedule();
+    }
+
+    function clearPhoto(resetConsent = false) {
+      if (state.photoUrl) URL.revokeObjectURL(state.photoUrl);
+      state.photoUrl = null;
+      state.photoFile = null;
+      state.guidanceShown = false;
+      byId('in-person-check').checked = false;
+      document.querySelectorAll('input[name="observation"]').forEach((input) => { input.checked = false; });
+      if (resetConsent) {
+        byId('photo-consent').checked = false;
+      }
+      byId('photo-input').value = '';
+      byId('photo-input').disabled = !byId('photo-consent').checked;
+      byId('photo-preview').removeAttribute('src');
+      byId('photo-preview').classList.remove('visible');
+      byId('photo-file-name').textContent = 'No photo selected';
+      byId('delete-photo').disabled = true;
+      byId('show-guidance').disabled = true;
+      byId('record-photo-check').disabled = true;
+      byId('guidance-result').classList.remove('visible');
+      byId('guidance-result').textContent = '';
+    }
+
+    function selectPatient(patientId) {
+      if (!state.patients.some((patient) => patient.id === patientId)) return;
+      if (state.selectedPatientId !== patientId) clearPhoto(true);
+      state.selectedPatientId = patientId;
+      renderAll();
+      if (state.currentTab === 'settings') byId('interval-minutes').value = String(selectedPatient().intervalMinutes);
+    }
+
+    function recordCheck(kind, note) {
+      const patient = selectedPatient();
+      const completedAt = Date.now();
+      state.checkHistory.push({ patientId: patient.id, kind, note, at: completedAt });
+      patient.nextCheckAt = completedAt + patient.intervalMinutes * 60 * 1000;
+      renderAll();
+    }
+
+    function getSelectedObservation() {
+      return document.querySelector('input[name="observation"]:checked')?.value || '';
+    }
+
+    function updatePhotoWorkflow() {
+      const consented = byId('photo-consent').checked;
+      byId('photo-input').disabled = !consented;
+      const previewReady = byId('photo-preview').naturalWidth > 0;
+      const ready = Boolean(byId('photo-consent').checked && state.photoFile && previewReady && getSelectedObservation() && byId('in-person-check').checked);
+      byId('show-guidance').disabled = !ready;
+      if (!ready) {
+        state.guidanceShown = false;
+        byId('record-photo-check').disabled = true;
+        byId('guidance-result').classList.remove('visible');
+      }
+    }
+
+    function showCareGuidance() {
+      if (!state.photoFile || !byId('photo-consent').checked || !byId('in-person-check').checked) return;
+      const guidance = {
+        aligned: 'If the bedside check and the individualized care plan agree, continue the prescribed plan and document the observation. This is not a risk score or diagnosis.',
+        adjust: 'Pause and compare with the individualized care plan. Ask a trained caregiver for help with repositioning; check comfort and any lines or devices, then reassess the patient in person. Do not act on the photo alone.',
+        unsure: 'Do not guess from the image. Keep the patient safe and ask the responsible clinician or trained caregiver to assess in person before changing position.'
+      }[getSelectedObservation()];
+      byId('guidance-result').textContent = `${guidance} Escalate any new skin changes, pain, distress, or urgent concern through your facility’s normal clinical process.`;
+      byId('guidance-result').classList.add('visible');
+      state.guidanceShown = true;
+      byId('record-photo-check').disabled = false;
+    }
+
+    document.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-tab]');
+      if (button) setTab(button.dataset.tab);
     });
+
+    byId('patient-search').addEventListener('input', renderPatientList);
+    byId('photo-consent').addEventListener('change', updatePhotoWorkflow);
+    byId('in-person-check').addEventListener('change', updatePhotoWorkflow);
+    document.querySelectorAll('input[name="observation"]').forEach((input) => input.addEventListener('change', updatePhotoWorkflow));
+    byId('photo-preview').addEventListener('load', updatePhotoWorkflow);
+    byId('photo-preview').addEventListener('error', () => {
+      clearPhoto();
+      byId('photo-file-name').textContent = 'Could not preview this image. Choose a supported image file.';
+    });
+
+    byId('photo-input').addEventListener('change', () => {
+      const file = byId('photo-input').files?.[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        clearPhoto();
+        byId('photo-file-name').textContent = 'Choose a valid image file.';
+        return;
+      }
+      clearPhoto();
+      state.photoFile = file;
+      state.photoUrl = URL.createObjectURL(file);
+      byId('photo-preview').src = state.photoUrl;
+      byId('photo-preview').classList.add('visible');
+      byId('photo-file-name').textContent = `${file.name} · local preview only`;
+      byId('delete-photo').disabled = false;
+      updatePhotoWorkflow();
+    });
+
+    byId('delete-photo').addEventListener('click', clearPhoto);
+    byId('show-guidance').addEventListener('click', showCareGuidance);
+    byId('record-photo-check').addEventListener('click', () => {
+      if (!state.photoFile || !state.guidanceShown || !byId('in-person-check').checked) return;
+      recordCheck('Photo-assisted caregiver check', `caregiver observation: ${getSelectedObservation()}`);
+      clearPhoto(true);
+      updatePhotoWorkflow();
+      setTab('schedule');
+    });
+
+    byId('acknowledge-check').addEventListener('click', () => {
+      recordCheck('Caregiver check', 'explicitly acknowledged as completed in person');
+    });
+
+    byId('save-interval').addEventListener('click', () => {
+      const input = byId('interval-minutes');
+      const minutes = Number(input.value);
+      if (!Number.isInteger(minutes) || minutes < 1 || minutes > 1440) {
+        input.setCustomValidity('Enter a whole number from 1 to 1440 minutes.');
+        input.reportValidity();
+        return;
+      }
+      input.setCustomValidity('');
+      const patient = selectedPatient();
+      patient.intervalMinutes = minutes;
+      patient.nextCheckAt = Date.now() + minutes * 60 * 1000;
+      renderAll();
+    });
+
+    window.setInterval(() => {
+      renderAttentionQueue();
+      renderPatientList();
+      if (state.currentTab === 'schedule') renderSchedule();
+    }, 1000);
+
+    window.addEventListener('beforeunload', () => {
+      if (state.photoUrl) URL.revokeObjectURL(state.photoUrl);
+    });
+
+    renderAll();
+    setTab('home');
   </script>
 </body>
 </html>
