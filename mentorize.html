@@ -213,6 +213,8 @@
     .mentor-prompt-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
     .mentor-prompt-button { min-height: 64px; padding: 11px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-align: left; font-size: 10px; font-weight: 650; transition: transform .18s ease,border-color .18s ease; }
     .mentor-prompt-button:hover { transform: translateY(-2px); border-color: #b7c1ff; }
+    .student-path-card { margin: 0 0 16px; }
+    .student-path-form { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr) auto; align-items: end; gap: 10px; }
     .student-preview-switch { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin: -5px 0 16px; color: var(--muted); font-size: 11px; }
     .student-preview-switch select { min-width: 180px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
     .communication-layout { display: grid; grid-template-columns: minmax(210px,.7fr) minmax(0,1.7fr); gap: 15px; margin-top: 16px; }
@@ -1811,12 +1813,16 @@
     @keyframes workspace-orbit { from { transform: translateY(8px) rotate(4deg); } to { transform: translateY(-8px) rotate(-4deg); } }
     @keyframes workspace-float { 0%,100% { transform: rotate(4deg) translateY(0); } 50% { transform: rotate(0) translateY(-7px); } }
     @media (max-width: 790px) {
+      .student-path-form { grid-template-columns: 1fr 1fr; }
+      .student-path-form button { grid-column: 1 / -1; }
       .shell:not(.marketing-mode):not([data-theme="light"]) .topbar { background: #111214f5; }
       .shell:not(.marketing-mode):not([data-theme="light"]) .sidebar { background: #0c0d0f; }
       .shell:not(.marketing-mode):not([data-theme="light"]) .content { padding-top: 27px; }
       .shell:not(.marketing-mode):not([data-theme="light"]) .welcome-banner { min-height: 205px; padding: 23px; }
     }
     @media (max-width: 540px) {
+      .student-path-form { grid-template-columns: 1fr; }
+      .student-path-form button { grid-column: auto; }
       .shell:not(.marketing-mode):not([data-theme="light"]) .content { padding: 22px 14px 38px; }
       .shell:not(.marketing-mode):not([data-theme="light"]) .heading h1,
       .shell:not(.marketing-mode):not([data-theme="light"]) #welcome-title { font-size: clamp(30px,9vw,40px); }
@@ -2049,6 +2055,23 @@
             <div class="stat"><div class="stat-icon" aria-hidden="true" id="overview-stat-icon-2">✓</div><div><strong id="overview-stat-value-2">1</strong><small id="overview-stat-label-2">missions explored</small></div></div>
             <div class="stat"><div class="stat-icon" aria-hidden="true" id="overview-stat-icon-3">🔥</div><div><strong id="overview-stat-value-3">3 weeks</strong><small id="overview-stat-label-3">on a learning streak</small></div></div>
           </div>
+
+          <section class="card student-path-card" data-role-view="student" aria-labelledby="student-path-title">
+            <div class="card-heading"><h2 id="student-path-title">What path would you like to explore?</h2><span class="status">YOUR CHOICE</span></div>
+            <p class="subheading">Pick what sounds interesting right now. You can change it whenever you want, and your mentors can use it to help you find a next step.</p>
+            <form class="student-path-form" id="student-path-form">
+              <label class="field" for="student-path-select">A path that interests me
+                <select id="student-path-select" name="path" required>
+                  <option value="">Choose a path…</option>
+                </select>
+              </label>
+              <label class="field" for="student-path-goal">Something I'd like to try (optional)
+                <input id="student-path-goal" name="goal" maxlength="120" placeholder="For example, make a small business idea">
+              </label>
+              <button class="button" type="submit">Save my path</button>
+            </form>
+            <p class="communication-note">Your choice is saved only in this browser demo and is visible to every demo mentor. It's okay to choose “Still exploring.”</p>
+          </section>
 
           <section class="quick-actions" aria-labelledby="quick-actions-title">
             <div class="quick-actions-heading">
@@ -2475,6 +2498,14 @@
       { id: "jeff", name: "Jeff", initials: "J", specialty: "Student" },
       { id: "bob", name: "Bob", initials: "B", specialty: "Student" }
     ];
+    const studentPathOptions = [
+      "Business & AI",
+      "Science & technology",
+      "Personal finance",
+      "Creative projects",
+      "Helping people",
+      "Still exploring"
+    ];
     const demoClass = { id: "jets-business-finance", name: "Business & Finance Lab" };
     const initialState = {
       role: "student",
@@ -2485,6 +2516,7 @@
       booking: null,
       activeStudentId: "alex",
       activeMentorId: "maya",
+      studentProfiles: {},
       threads: {},
       assignments: [{
         id: "welcome-class-assignment",
@@ -2532,6 +2564,7 @@
           booking: parsed.booking && typeof parsed.booking === "object" ? parsed.booking : null,
           activeStudentId: students.some(student => student.id === parsed.activeStudentId) ? parsed.activeStudentId : initialState.activeStudentId,
           activeMentorId: mentors.some(mentor => mentor.id === parsed.activeMentorId) ? parsed.activeMentorId : initialState.activeMentorId,
+          studentProfiles: loadStudentProfiles(parsed.studentProfiles),
           threads: loadThreads(parsed.threads, parsed.messages),
           assignments: loadAssignments(parsed.assignments)
         };
@@ -2539,6 +2572,21 @@
         storageReady = false;
         showToast("Saved demo data could not be read. Changes will stay only until you close this tab.");
         console.error("Mentorize could not load its browser storage.", error);
+      }
+
+      function loadStudentProfiles(savedProfiles) {
+        if (!savedProfiles || typeof savedProfiles !== "object" || Array.isArray(savedProfiles)) return {};
+        return Object.fromEntries(Object.entries(savedProfiles)
+          .filter(([studentId, profile]) =>
+            students.some(student => student.id === studentId) &&
+            profile &&
+            typeof profile === "object" &&
+            studentPathOptions.includes(profile.path)
+          )
+          .map(([studentId, profile]) => [studentId, {
+            path: profile.path,
+            goal: typeof profile.goal === "string" ? profile.goal.trim().slice(0, 120) : ""
+          }]));
       }
 
       function loadThreads(savedThreads, legacyMessages) {
@@ -2640,12 +2688,17 @@
       return state.threads[key];
     }
 
+    function getStudentProfile(studentId) {
+      return state.studentProfiles[studentId] || { path: "", goal: "" };
+    }
+
     function renderCommunication() {
       const mentor = state.role === "mentor";
       const personList = mentor ? students : mentors;
       const selectedId = mentor ? state.activeStudentId : state.activeMentorId;
       const selectedPerson = personList.find(person => person.id === selectedId) || personList[0];
       const selectedStudent = students.find(student => student.id === state.activeStudentId) || students[0];
+      const selectedStudentProfile = getStudentProfile(selectedStudent.id);
       const selectedMentor = mentors.find(person => person.id === state.activeMentorId) || mentors[0];
       const contactList = document.getElementById("contact-list");
       document.getElementById("contact-list-title").textContent = mentor ? "Your learners" : "Your mentors";
@@ -2656,11 +2709,13 @@
       contactList.innerHTML = personList.map(person => `
         <button class="contact-button${person.id === selectedId ? " selected" : ""}" type="button" role="listitem" data-contact-id="${person.id}" aria-pressed="${person.id === selectedId}">
           <span class="contact-avatar" aria-hidden="true">${escapeHtml(person.initials)}</span>
-          <span class="contact-copy"><strong>${escapeHtml(person.name)}</strong><small>${escapeHtml(person.specialty)}</small></span>
+          <span class="contact-copy"><strong>${escapeHtml(person.name)}</strong><small>${mentor
+            ? `Path: ${escapeHtml(getStudentProfile(person.id).path || "not chosen yet")}`
+            : escapeHtml(person.specialty)}</small></span>
         </button>`).join("");
       document.getElementById("conversation-title").textContent = `Conversation with ${selectedPerson.name}`;
       document.getElementById("conversation-context").textContent = mentor
-        ? `${selectedStudent.name} · You are ${selectedMentor.name}`
+        ? `${selectedStudent.name} · Path: ${selectedStudentProfile.path || "not chosen yet"} · You are ${selectedMentor.name}`
         : `${selectedMentor.name} · Your demo profile is ${selectedStudent.name}`;
       document.getElementById("message-input").placeholder = mentor
         ? `Write to ${selectedStudent.name}…`
@@ -2676,6 +2731,12 @@
         `<option value="${student.id}">${escapeHtml(student.name)}</option>`
       ).join("");
       profileSelect.value = state.activeStudentId;
+      const studentPathSelect = document.getElementById("student-path-select");
+      studentPathSelect.innerHTML = `<option value="">Choose a path…</option>${studentPathOptions.map(path =>
+        `<option value="${escapeHtml(path)}">${escapeHtml(path)}</option>`
+      ).join("")}`;
+      studentPathSelect.value = selectedStudentProfile.path;
+      document.getElementById("student-path-goal").value = selectedStudentProfile.goal;
       const mentorSelect = document.getElementById("mentor-preview-select");
       mentorSelect.innerHTML = mentors.map(person =>
         `<option value="${person.id}">${escapeHtml(person.name)}</option>`
@@ -2711,8 +2772,8 @@
           <div class="mentor-learner-avatar" aria-hidden="true">${escapeHtml(selectedStudent.initials)}</div>
           <div class="mentor-learner-copy">
             <strong>${escapeHtml(selectedStudent.name)}</strong>
-            <small>${escapeHtml(selectedStudent.specialty)}</small>
-            <p>${assignedProjects.length} project${assignedProjects.length === 1 ? "" : "s"} sent · ${thread.length} conversation message${thread.length === 1 ? "" : "s"}</p>
+            <small>Path: ${escapeHtml(selectedStudentProfile.path || "not chosen yet")}</small>
+            <p>${selectedStudentProfile.goal ? `Would like to try: ${escapeHtml(selectedStudentProfile.goal)} · ` : ""}${assignedProjects.length} project${assignedProjects.length === 1 ? "" : "s"} sent · ${thread.length} conversation message${thread.length === 1 ? "" : "s"}</p>
             <button class="button small" type="button" data-contact-id="${selectedStudent.id}">Open conversation →</button>
           </div>
         </article>`;
@@ -2768,7 +2829,9 @@
       document.getElementById("class-roster").innerHTML = students.map(student => `
         <div class="class-roster-person">
           <span class="contact-avatar" aria-hidden="true">${escapeHtml(student.initials)}</span>
-          <span><strong>${escapeHtml(student.name)}${!mentorRole && student.id === state.activeStudentId ? " · You" : ""}</strong><small>${escapeHtml(student.specialty)}</small></span>
+          <span><strong>${escapeHtml(student.name)}${!mentorRole && student.id === state.activeStudentId ? " · You" : ""}</strong><small>${mentorRole
+            ? `Path: ${escapeHtml(getStudentProfile(student.id).path || "not chosen yet")}`
+            : escapeHtml(student.specialty)}</small></span>
         </div>`).join("");
 
       const projectSelect = document.getElementById("class-post-project");
@@ -2859,9 +2922,12 @@
       document.querySelectorAll(".demo-message").forEach(message => message.classList.toggle("mine", message.dataset.sender === state.role));
       document.getElementById("profile-name").textContent = mentor ? activeMentor.name : activeStudent.name;
       document.getElementById("profile-avatar").textContent = mentor ? activeMentor.initials : activeStudent.initials;
-      document.getElementById("profile-label").textContent = mentor ? `Mentor · ${activeMentor.specialty}` : `Student · ${activeStudent.specialty}`;
+      const activeStudentProfile = getStudentProfile(activeStudent.id);
+      document.getElementById("profile-label").textContent = mentor
+        ? `Mentor · ${activeMentor.specialty}`
+        : `Student · ${activeStudentProfile.path || activeStudent.specialty}`;
       document.getElementById("welcome-eyebrow").textContent = mentor ? "Your mentoring space" : "Your learning space";
-      document.getElementById("welcome-title").textContent = mentor ? "A little guidance goes a long way." : "Hey, Alex. What are you curious about today?";
+      document.getElementById("welcome-title").textContent = mentor ? "A little guidance goes a long way." : `Hey, ${activeStudent.name}. What are you curious about today?`;
       document.getElementById("welcome-copy").textContent = mentor
         ? "A good question can open a whole new world. Check in with your learners, review their experiments, and help them find their next question."
         : "Pick a quick mission, explore an idea, or make your own move. No grades, no pressure—just something interesting to try.";
@@ -2886,7 +2952,9 @@
       document.getElementById("list-heading").textContent = mentor ? "Learner activity to review" : "On your desk";
       document.getElementById("side-avatar").textContent = mentor ? activeStudent.initials : activeMentor.initials;
       document.getElementById("side-name").textContent = mentor ? activeStudent.name : activeMentor.name;
-      document.getElementById("side-subtitle").textContent = mentor ? `Your learner · ${activeStudent.specialty}` : `Your mentor · ${activeMentor.specialty}`;
+      document.getElementById("side-subtitle").textContent = mentor
+        ? `Your learner · ${activeStudentProfile.path || "Path not chosen yet"}`
+        : `Your mentor · ${activeMentor.specialty}`;
       document.getElementById("side-quote").textContent = mentor
         ? "“The best mentoring starts with listening. Ask what surprised them before sharing what you know.”"
         : "“You don't need to know the answer yet. Start with the question that won't leave you alone.”";
@@ -2943,6 +3011,7 @@
       const progress = Math.min(100, Math.round((state.xp % 500) / 5));
       const remainingXp = 500 - state.xp % 500;
       const mentor = state.role === "mentor";
+      const activeStudent = students.find(student => student.id === state.activeStudentId) || students[0];
 
       document.getElementById("progress-summary-missions").textContent = `${completedChallenges.length} / ${challenges.length}`;
       document.getElementById("progress-summary-xp").textContent = String(state.xp);
@@ -2968,7 +3037,7 @@
 
       document.getElementById("progress-activity").innerHTML = completedChallenges.length
         ? completedChallenges.map(challenge => `<article class="progress-activity-item"><span class="progress-activity-icon visual-mark" aria-hidden="true">${challenge.emoji}</span><div><strong>${escapeHtml(challenge.title)}</strong><small>${escapeHtml(challenge.subject)} · ${escapeHtml(challenge.time)} · ${challenge.xp} curiosity points</small></div></article>`).join("")
-        : `<p class="progress-empty">${mentor ? "Alex hasn't marked a mission explored yet. When they do, it will show up here." : "Your explored missions will show up here. Pick one to try a small experiment and record what you notice."}</p>`;
+        : `<p class="progress-empty">${mentor ? `${escapeHtml(activeStudent.name)} hasn't marked a mission explored yet. When they do, it will show up here.` : "Your explored missions will show up here. Pick one to try a small experiment and record what you notice."}</p>`;
 
       const subjects = [...new Set(challenges.map(challenge => challenge.subject))];
       document.getElementById("progress-topic-list").innerHTML = subjects.map(subject => {
@@ -3530,6 +3599,23 @@
       state.activeStudentId = event.currentTarget.value;
       saveState();
       renderRole();
+    });
+    document.getElementById("student-path-form").addEventListener("submit", event => {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const path = String(formData.get("path") || "");
+      if (!studentPathOptions.includes(path)) {
+        showToast("Choose a path before saving.");
+        document.getElementById("student-path-select").focus();
+        return;
+      }
+      state.studentProfiles[state.activeStudentId] = {
+        path,
+        goal: String(formData.get("goal") || "").trim().slice(0, 120)
+      };
+      saveState();
+      renderRole();
+      showToast("Your path is saved. Demo mentors can now see it.");
     });
     document.getElementById("mentor-preview-select").addEventListener("change", event => {
       if (!mentors.some(person => person.id === event.currentTarget.value)) return;
