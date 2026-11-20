@@ -213,6 +213,37 @@
     .mentor-prompt-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
     .mentor-prompt-button { min-height: 64px; padding: 11px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-align: left; font-size: 10px; font-weight: 650; transition: transform .18s ease,border-color .18s ease; }
     .mentor-prompt-button:hover { transform: translateY(-2px); border-color: #b7c1ff; }
+    .student-preview-switch { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin: -5px 0 16px; color: var(--muted); font-size: 11px; }
+    .student-preview-switch select { min-width: 180px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
+    .communication-layout { display: grid; grid-template-columns: minmax(210px,.7fr) minmax(0,1.7fr); gap: 15px; margin-top: 16px; }
+    .contact-list { display: grid; gap: 7px; align-content: start; max-height: 435px; overflow-y: auto; }
+    .contact-button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid transparent; border-radius: 10px; background: transparent; color: var(--ink); text-align: left; }
+    .contact-button:hover { border-color: var(--line); background: var(--surface); }
+    .contact-button.selected { border-color: #b7c1ff; background: var(--green-soft); }
+    .contact-avatar { width: 36px; height: 36px; display: grid; place-items: center; flex: 0 0 36px; border-radius: 50%; background: var(--lavender); color: #5c5378; font-size: 10px; font-weight: 800; }
+    .contact-button:nth-child(3n) .contact-avatar { background: var(--yellow-soft); color: #806b30; }
+    .contact-copy { min-width: 0; }
+    .contact-copy strong,.contact-copy small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .contact-copy strong { font-size: 11px; }
+    .contact-copy small { color: var(--muted); font-size: 9px; }
+    .conversation-card { min-width: 0; }
+    .conversation-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .conversation-heading strong { color: var(--ink); font-size: 12px; }
+    .conversation-heading small { display: block; color: var(--muted); font-size: 9px; }
+    .conversation-demo-badge { flex: 0 0 auto; color: #806b30; font-size: 8px; font-weight: 750; letter-spacing: .06em; }
+    #conversation { min-height: 145px; }
+    .conversation-empty { padding: 27px 14px; border: 1px dashed var(--line); border-radius: 11px; color: var(--muted); text-align: center; font-size: 11px; }
+    .project-share { margin-top: 15px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .project-share h3,.student-projects h3 { margin: 0 0 8px; font-size: 12px; }
+    .project-share-form { display: flex; align-items: end; gap: 8px; }
+    .project-share-form .field { flex: 1; margin: 0; }
+    .project-share-form select { min-height: 38px; }
+    .student-projects { display: grid; gap: 8px; margin-top: 14px; }
+    .assigned-project { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+    .assigned-project strong,.assigned-project small { display: block; }
+    .assigned-project strong { font-size: 10px; }
+    .assigned-project small { color: var(--muted); font-size: 9px; }
+    .communication-note { margin: 12px 0 0; color: var(--muted); font-size: 9px; }
     .role-view[hidden], [data-role-view][hidden], [data-role-nav][hidden] { display: none !important; }
     .role-only-empty { padding: 17px; border: 1px dashed var(--line); border-radius: 13px; color: var(--muted); font-size: 11px; }
     .list { display: grid; gap: 10px; }
@@ -653,6 +684,8 @@
       .workspace-extra-grid { grid-template-columns: 1fr; }
       .workspace-extra-card p { min-height: 0; }
       .mentor-prompt-grid { grid-template-columns: 1fr; }
+      .communication-layout { grid-template-columns: 1fr; }
+      .contact-list { grid-template-columns: repeat(2,minmax(0,1fr)); max-height: 210px; }
       .home-topbar { min-height: 66px !important; padding: 0 18px !important; }
       .home-nav { gap: 15px; }
       .home-nav a { font-size: 10px; }
@@ -681,6 +714,7 @@
       .challenge-grid { grid-template-columns: 1fr; }
       .challenge-art { height: 112px; }
       .role-switch button { padding: 6px 7px; font-size: 10px; }
+      .project-share-form { align-items: stretch; flex-direction: column; }
       .top-actions { gap: 6px; }
       .role-label, .workspace-label { display: none; }
       .crumb { overflow: hidden; }
@@ -2064,25 +2098,12 @@
             <div><div class="eyebrow">Better, together</div><h1 id="mentoring-title" tabindex="-1">Your mentoring corner</h1><p class="subheading" id="mentoring-subheading">A place to ask the questions, share the messy first draft, and celebrate what you figure out.</p></div>
             <button class="button" type="button" id="book-session">＋ Plan a check-in</button>
           </div>
+          <div class="student-preview-switch">
+            <label for="student-preview-select">Demo student profile</label>
+            <select id="student-preview-select" aria-label="Choose a student profile to preview"></select>
+            <span>Switch profiles to preview each learner's inbox.</span>
+          </div>
           <div class="mentoring-grid">
-            <div class="card">
-              <div class="mentor-profile">
-                <div class="mentor-avatar visual-mark" id="mentor-profile-avatar" aria-hidden="true">MC</div>
-                <div><h2 id="mentor-profile-name">Dr. Maya Chen</h2><p id="mentor-profile-title">Volunteer mentor · Business &amp; finance</p><div class="online">● Available this week</div></div>
-              </div>
-              <div class="conversation-label"><strong id="conversation-recipient">Conversation with Dr. Maya Chen</strong><span>DEMO · THIS BROWSER ONLY</span></div>
-              <div id="conversation" aria-label="Sample conversation">
-                <div class="message">Hey Alex! I saw you're exploring a small AI business idea. What problem would you most like to help solve?<span class="message-time">Maya · Yesterday, 3:12 PM</span></div>
-                <div class="message mine">Maybe a tool that helps students plan their weekly allowance.<span class="message-time">You · Yesterday, 3:26 PM</span></div>
-                <div class="message">That's a useful idea. Let's compare who would use it, what it would cost, and one small way to test it. Can't wait to hear what you discover!<span class="message-time">Maya · Yesterday, 3:31 PM</span></div>
-              </div>
-              <form class="message-form" id="message-form">
-                <label class="sr-only" for="message-input">Write a demo message</label>
-                <textarea id="message-input" name="message" maxlength="240" rows="1" placeholder="Share a question or discovery…" required></textarea>
-                <button class="button small" type="submit">Add message</button>
-              </form>
-              <div class="message-compose-note"><span>Enter to add · Shift+Enter for a new line</span><strong id="message-count">0 / 240</strong></div>
-            </div>
             <div>
               <div class="card">
                 <div class="card-heading"><h2>Coming up</h2><span class="status in-progress">Your next check-in</span></div>
@@ -2099,47 +2120,28 @@
               </div>
             </div>
           </div>
-          <section class="mentor-team" aria-labelledby="mentor-team-title">
-            <div class="mentor-team-heading">
-              <div><h2 id="mentor-team-title">More people in your corner</h2><p>Choose someone you'd like to ask about meeting with. A mentor can help you explore ideas, work through a challenge, or find your next step.</p></div>
-            </div>
-            <div class="mentor-team-grid">
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">RS</div><h3>Rabbi Sufrin</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="Rabbi Sufrin">Plan a check-in</button></article>
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">MH</div><h3>Mat Hines</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="Mat Hines">Plan a check-in</button></article>
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">RSh</div><h3>Rabbi Shnarsin</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="Rabbi Shnarsin">Plan a check-in</button></article>
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">L</div><h3>Larina</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="Larina">Plan a check-in</button></article>
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">D</div><h3>David</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="David">Plan a check-in</button></article>
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">K</div><h3>Kertist</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="Kertist">Plan a check-in</button></article>
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">SC</div><h3>Shy the Chef</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="Shy the Chef">Plan a check-in</button></article>
-              <article class="card mentor-team-card"><div class="mentor-team-avatar" aria-hidden="true">J</div><h3>Jake</h3><p>Mentor option</p><button class="button small secondary" type="button" data-mentor-choice="Jake">Plan a check-in</button></article>
-            </div>
-            <p class="mentor-team-note">Demo roster only: check with JETS staff to confirm mentor details and availability. Check-in suggestions stay in this browser and are not sent.</p>
-          </section>
-          <p class="footer-note">Demo conversation only. Messages are stored in this browser and are not delivered to another person.</p>
+          <p class="footer-note">Choose a mentor to start a conversation. Demo messages and projects are saved only in this browser and are not sent to real people.</p>
           </div>
           <div data-role-view="mentor" hidden>
             <div class="heading">
               <div><div class="eyebrow">MENTOR SPACE</div><h1 id="mentor-learners-title" tabindex="-1">Your learners, your impact</h1><p class="subheading">See what learners are exploring, prepare a useful check-in, and make feedback feel encouraging and specific.</p></div>
               <button class="button" type="button" data-open-booking>＋ Prep a check-in</button>
             </div>
+            <div class="student-preview-switch">
+              <label for="mentor-preview-select">Demo mentor profile</label>
+              <select id="mentor-preview-select" aria-label="Choose a mentor profile to preview"></select>
+              <span>Preview conversations as different mentors.</span>
+            </div>
             <div class="stat-row" aria-label="Mentor workspace snapshot">
-              <div class="stat"><div class="stat-icon visual-mark" aria-hidden="true">STUDENTS</div><div><strong>1</strong><small>sample learner</small></div></div>
+              <div class="stat"><div class="stat-icon visual-mark" aria-hidden="true">STUDENTS</div><div><strong id="mentor-student-count">3</strong><small>sample learners</small></div></div>
               <div class="stat"><div class="stat-icon visual-mark" aria-hidden="true">REVIEW</div><div><strong id="mentor-review-count">1</strong><small>projects to review</small></div></div>
               <div class="stat"><div class="stat-icon visual-mark" aria-hidden="true">NEXT</div><div><strong id="mentor-next-meeting">Not planned</strong><small>next check-in prep</small></div></div>
             </div>
             <div class="mentor-summary-grid">
               <section class="card" aria-labelledby="learner-list-title">
                 <div class="card-heading"><h2 id="learner-list-title">In your corner</h2><span class="status in-progress">DEMO LEARNER</span></div>
-                <article class="mentor-learner-card">
-                  <div class="mentor-learner-avatar" aria-hidden="true">AM</div>
-                  <div class="mentor-learner-copy">
-                    <strong>Alex Morgan</strong>
-                    <small>Exploring business ideas · Learning about money</small>
-                    <p>Recent spark: planning a small AI tool to help students organize an allowance.</p>
-                    <button class="button small" type="button" data-go="science">See Alex's learning work →</button>
-                  </div>
-                </article>
-                <p class="mentor-team-note">Sample learner only. This demo does not connect to a real student or send messages.</p>
+                <div id="mentor-learner-summary"></div>
+                <p class="mentor-team-note">Demo roster: select a learner below to open their separate conversation and send them a project.</p>
               </section>
               <section class="card" aria-labelledby="mentor-checkin-title">
                 <div class="card-heading"><h2 id="mentor-checkin-title">Make the next check-in theirs</h2></div>
@@ -2157,6 +2159,40 @@
               </div>
             </section>
           </div>
+          <section class="communication-layout" aria-label="Conversations and project sharing">
+            <section class="card" aria-labelledby="contact-list-title">
+              <div class="card-heading"><h2 id="contact-list-title">Your mentors</h2><span class="status in-progress" id="contact-count">0 people</span></div>
+              <p class="mentor-team-note" id="contact-list-help">Choose a mentor to open your private demo conversation.</p>
+              <div class="contact-list" id="contact-list" role="list"></div>
+            </section>
+            <section class="card conversation-card" aria-labelledby="conversation-title">
+              <div class="conversation-heading">
+                <div><strong id="conversation-title">Conversation</strong><small id="conversation-context">Choose a person to start chatting</small></div>
+                <span class="conversation-demo-badge">BROWSER DEMO</span>
+              </div>
+              <div id="conversation" aria-live="polite" aria-label="Demo conversation"></div>
+              <form class="message-form" id="message-form">
+                <label class="sr-only" for="message-input">Write a message</label>
+                <textarea id="message-input" name="message" maxlength="240" rows="1" placeholder="Write a message…" required></textarea>
+                <button class="button small" type="submit">Send</button>
+              </form>
+              <div class="message-compose-note"><span>Enter to send · Shift+Enter for a new line</span><strong id="message-count">0 / 240</strong></div>
+              <section class="project-share" id="project-share" hidden aria-labelledby="project-share-title">
+                <h3 id="project-share-title">Send this student a project</h3>
+                <form class="project-share-form" id="project-share-form">
+                  <label class="field" for="project-select"><span class="sr-only">Choose a project</span><select id="project-select" name="project" required></select></label>
+                  <button class="button small" type="submit">Send project</button>
+                </form>
+                <p class="communication-note">Sending adds the project to the selected demo student's inbox. It is not delivered to a real account.</p>
+              </section>
+              <section class="student-projects" id="student-projects" hidden aria-labelledby="student-projects-title">
+                <h3 id="student-projects-title">Projects from your mentors</h3>
+                <div id="student-project-list"></div>
+                <p class="communication-note">Projects are demo assignments saved in this browser.</p>
+              </section>
+              <p class="communication-note" id="communication-note">Demo-only: messages stay in this browser. Real private messaging needs sign-in and a connected service.</p>
+            </section>
+          </section>
         </section>
 
         <section class="page" id="page-ai-coach" aria-labelledby="ai-coach-title">
@@ -2335,7 +2371,34 @@
       { id: "moon-craters", title: "Explore saving and interest", subject: "Personal Finance 2", emoji: "PF2", time: "20 min", xp: 70, status: "Submitted", description: "Compare how saving and interest can change a simple plan over time.", materials: ["A sample starting amount", "Paper or a spreadsheet", "A calculator"], steps: ["Choose a starting amount and saving goal.", "Add one amount of savings each month.", "Compare a few different time periods.", "Explain how patience and consistency can affect the result."] },
       { id: "sunlight-garden", title: "Compare real money choices", subject: "Personal Finance 1", emoji: "PF1", time: "15 min", xp: 90, status: "To do", description: "Compare two spending choices and explain the tradeoff without judging the decision.", materials: ["Two sample purchase options", "Paper or a spreadsheet", "A trusted adult for a conversation"], steps: ["Choose two items or experiences with different benefits and costs.", "List what you gain and give up with each choice.", "Choose a decision based on your priorities.", "Share the reasoning and one thing you would consider before buying."] }
     ];
-    const initialState = { role: "student", theme: "dark", completed: ["moon-craters"], xp: 240, feedback: {}, booking: null, messages: [] };
+    const mentors = [
+      { id: "maya", name: "Dr. Maya Chen", initials: "MC", specialty: "Business & finance" },
+      { id: "sufrin", name: "Rabbi Sufrin", initials: "RS", specialty: "Mentor" },
+      { id: "mat", name: "Mat Hines", initials: "MH", specialty: "Mentor" },
+      { id: "shnarsin", name: "Rabbi Shnarsin", initials: "RSh", specialty: "Mentor" },
+      { id: "larina", name: "Larina", initials: "L", specialty: "Mentor" },
+      { id: "david", name: "David", initials: "D", specialty: "Mentor" },
+      { id: "kertist", name: "Kertist", initials: "K", specialty: "Mentor" },
+      { id: "shy", name: "Shy the Chef", initials: "SC", specialty: "Mentor" },
+      { id: "jake", name: "Jake", initials: "J", specialty: "Mentor" }
+    ];
+    const students = [
+      { id: "alex", name: "Alex Morgan", initials: "AM", specialty: "Learning explorer" },
+      { id: "jeff", name: "Jeff", initials: "J", specialty: "Student" },
+      { id: "bob", name: "Bob", initials: "B", specialty: "Student" }
+    ];
+    const initialState = {
+      role: "student",
+      theme: "dark",
+      completed: ["moon-craters"],
+      xp: 240,
+      feedback: {},
+      booking: null,
+      activeStudentId: "alex",
+      activeMentorId: "maya",
+      threads: {},
+      assignments: []
+    };
     let state = { ...initialState };
     let activeFilter = "All";
     let aiConversation = [];
@@ -2370,18 +2433,73 @@
           xp: Number.isFinite(parsed.xp) ? parsed.xp : initialState.xp,
           feedback: parsed.feedback && typeof parsed.feedback === "object" ? parsed.feedback : {},
           booking: parsed.booking && typeof parsed.booking === "object" ? parsed.booking : null,
-          messages: Array.isArray(parsed.messages) ? parsed.messages
-            .filter(message => typeof message === "string" || (message && typeof message.text === "string"))
-            .slice(-50)
-            .map(message => typeof message === "string"
-              ? { text: message.slice(0, 240), role: "student", createdAt: "" }
-              : { text: message.text.slice(0, 240), role: message.role === "mentor" ? "mentor" : "student", createdAt: typeof message.createdAt === "string" ? message.createdAt : "" })
-            : []
+          activeStudentId: students.some(student => student.id === parsed.activeStudentId) ? parsed.activeStudentId : initialState.activeStudentId,
+          activeMentorId: mentors.some(mentor => mentor.id === parsed.activeMentorId) ? parsed.activeMentorId : initialState.activeMentorId,
+          threads: loadThreads(parsed.threads, parsed.messages),
+          assignments: loadAssignments(parsed.assignments)
         };
       } catch (error) {
         storageReady = false;
         showToast("Saved demo data could not be read. Changes will stay only until you close this tab.");
         console.error("Mentorize could not load its browser storage.", error);
+      }
+
+      function loadThreads(savedThreads, legacyMessages) {
+        const threads = {};
+        if (savedThreads && typeof savedThreads === "object" && !Array.isArray(savedThreads)) {
+          Object.entries(savedThreads).forEach(([key, entries]) => {
+            if (!/^[a-z]+:[a-z]+$/.test(key) || !Array.isArray(entries)) return;
+            const [mentorId, studentId] = key.split(":");
+            const mentor = mentors.find(person => person.id === mentorId);
+            const student = students.find(person => person.id === studentId);
+            if (!mentor || !student) return;
+            threads[key] = entries.filter(entry => entry && typeof entry.text === "string")
+              .slice(-100)
+              .map(entry => ({
+                text: entry.text.slice(0, 240),
+                senderRole: entry.senderRole === "mentor" || entry.role === "mentor" ? "mentor" : "student",
+                senderId: entry.senderRole === "mentor" || entry.role === "mentor" ? mentorId : studentId,
+                senderName: entry.senderRole === "mentor" || entry.role === "mentor" ? mentor.name : student.name,
+                createdAt: typeof entry.createdAt === "string" ? entry.createdAt : "",
+                projectId: challenges.some(challenge => challenge.id === entry.projectId) ? entry.projectId : ""
+              }));
+          });
+        }
+        if (!threads["maya:alex"] && Array.isArray(legacyMessages)) {
+          threads["maya:alex"] = legacyMessages
+            .filter(message => typeof message === "string" || (message && typeof message.text === "string"))
+            .slice(-100)
+            .map(message => {
+              const text = typeof message === "string" ? message : message.text;
+              const senderRole = typeof message !== "string" && message.role === "mentor" ? "mentor" : "student";
+              return {
+                text: text.slice(0, 240),
+                senderRole,
+                senderId: senderRole === "mentor" ? "maya" : "alex",
+                senderName: senderRole === "mentor" ? "Dr. Maya Chen" : "Alex Morgan",
+                createdAt: typeof message === "object" && typeof message.createdAt === "string" ? message.createdAt : "",
+                projectId: ""
+              };
+            });
+        }
+        return threads;
+      }
+
+      function loadAssignments(savedAssignments) {
+        if (!Array.isArray(savedAssignments)) return [];
+        return savedAssignments.filter(assignment =>
+          assignment &&
+          typeof assignment.id === "string" &&
+          students.some(student => student.id === assignment.studentId) &&
+          mentors.some(mentor => mentor.id === assignment.mentorId) &&
+          challenges.some(challenge => challenge.id === assignment.challengeId)
+        ).slice(-100).map(assignment => ({
+          id: assignment.id.slice(0, 80),
+          studentId: assignment.studentId,
+          mentorId: assignment.mentorId,
+          challengeId: assignment.challengeId,
+          createdAt: typeof assignment.createdAt === "string" ? assignment.createdAt : ""
+        }));
       }
     }
 
@@ -2411,6 +2529,96 @@
 
     function isComplete(id) {
       return state.completed.includes(id);
+    }
+
+    function currentThreadKey() {
+      return `${state.activeMentorId}:${state.activeStudentId}`;
+    }
+
+    function currentThread() {
+      const key = currentThreadKey();
+      if (!Array.isArray(state.threads[key])) state.threads[key] = [];
+      return state.threads[key];
+    }
+
+    function renderCommunication() {
+      const mentor = state.role === "mentor";
+      const personList = mentor ? students : mentors;
+      const selectedId = mentor ? state.activeStudentId : state.activeMentorId;
+      const selectedPerson = personList.find(person => person.id === selectedId) || personList[0];
+      const selectedStudent = students.find(student => student.id === state.activeStudentId) || students[0];
+      const selectedMentor = mentors.find(person => person.id === state.activeMentorId) || mentors[0];
+      const contactList = document.getElementById("contact-list");
+      document.getElementById("contact-list-title").textContent = mentor ? "Your learners" : "Your mentors";
+      document.getElementById("contact-list-help").textContent = mentor
+        ? "Choose a learner to message them or send a project."
+        : "Choose any mentor to start a separate conversation.";
+      document.getElementById("contact-count").textContent = `${personList.length} people`;
+      contactList.innerHTML = personList.map(person => `
+        <button class="contact-button${person.id === selectedId ? " selected" : ""}" type="button" role="listitem" data-contact-id="${person.id}" aria-pressed="${person.id === selectedId}">
+          <span class="contact-avatar" aria-hidden="true">${escapeHtml(person.initials)}</span>
+          <span class="contact-copy"><strong>${escapeHtml(person.name)}</strong><small>${escapeHtml(person.specialty)}</small></span>
+        </button>`).join("");
+      document.getElementById("conversation-title").textContent = `Conversation with ${selectedPerson.name}`;
+      document.getElementById("conversation-context").textContent = mentor
+        ? `${selectedStudent.name} · You are ${selectedMentor.name}`
+        : `${selectedMentor.name} · Your demo profile is ${selectedStudent.name}`;
+      document.getElementById("message-input").placeholder = mentor
+        ? `Write to ${selectedStudent.name}…`
+        : `Write to ${selectedMentor.name}…`;
+      document.getElementById("project-share").hidden = !mentor;
+      document.getElementById("student-projects").hidden = mentor;
+      document.getElementById("communication-note").textContent = mentor
+        ? "Demo-only: messages and sent projects stay in this browser. Real private messaging needs sign-in and a connected service."
+        : "Demo-only: messages stay in this browser. Real private messaging needs sign-in and a connected service.";
+
+      const profileSelect = document.getElementById("student-preview-select");
+      profileSelect.innerHTML = students.map(student =>
+        `<option value="${student.id}">${escapeHtml(student.name)}</option>`
+      ).join("");
+      profileSelect.value = state.activeStudentId;
+      const mentorSelect = document.getElementById("mentor-preview-select");
+      mentorSelect.innerHTML = mentors.map(person =>
+        `<option value="${person.id}">${escapeHtml(person.name)}</option>`
+      ).join("");
+      mentorSelect.value = state.activeMentorId;
+
+      const conversation = document.getElementById("conversation");
+      conversation.replaceChildren();
+      const thread = currentThread();
+      if (thread.length) {
+        thread.forEach(message => appendMessage(message, false));
+      } else {
+        const empty = document.createElement("div");
+        empty.className = "conversation-empty";
+        empty.textContent = `This is a new conversation between ${selectedStudent.name} and ${selectedMentor.name}. Say hello to get started.`;
+        conversation.appendChild(empty);
+      }
+
+      const projectSelect = document.getElementById("project-select");
+      projectSelect.innerHTML = `<option value="">Choose a project…</option>${challenges.map(challenge =>
+        `<option value="${challenge.id}">${escapeHtml(challenge.title)}</option>`
+      ).join("")}`;
+      const assignedProjects = state.assignments.filter(assignment => assignment.studentId === state.activeStudentId);
+      const projectList = document.getElementById("student-project-list");
+      projectList.innerHTML = assignedProjects.length ? assignedProjects.map(assignment => {
+        const challenge = challenges.find(item => item.id === assignment.challengeId);
+        const sender = mentors.find(person => person.id === assignment.mentorId);
+        if (!challenge || !sender) return "";
+        return `<article class="assigned-project"><div><strong>${escapeHtml(challenge.title)}</strong><small>From ${escapeHtml(sender.name)} · ${escapeHtml(challenge.subject)}</small></div><button class="button small secondary" type="button" data-challenge="${challenge.id}">Open</button></article>`;
+      }).join("") : `<p class="conversation-empty">No projects yet. When a mentor sends you one, it'll appear here.</p>`;
+      document.getElementById("mentor-learner-summary").innerHTML = `
+        <article class="mentor-learner-card">
+          <div class="mentor-learner-avatar" aria-hidden="true">${escapeHtml(selectedStudent.initials)}</div>
+          <div class="mentor-learner-copy">
+            <strong>${escapeHtml(selectedStudent.name)}</strong>
+            <small>${escapeHtml(selectedStudent.specialty)}</small>
+            <p>${assignedProjects.length} project${assignedProjects.length === 1 ? "" : "s"} sent · ${thread.length} conversation message${thread.length === 1 ? "" : "s"}</p>
+            <button class="button small" type="button" data-contact-id="${selectedStudent.id}">Open conversation →</button>
+          </div>
+        </article>`;
+      document.getElementById("message-count").textContent = `${document.getElementById("message-input").value.length} / 240`;
+      document.getElementById("conversation").scrollTop = document.getElementById("conversation").scrollHeight;
     }
 
     function challengeStatus(challenge) {
@@ -2456,6 +2664,7 @@
       document.getElementById("overview-stat-label-3").textContent = state.role === "mentor" ? "sample learner" : "on a learning streak";
       document.getElementById("overview-stat-icon-3").textContent = state.role === "mentor" ? "STUDENT" : "🔥";
       document.getElementById("mentor-review-count").textContent = String(reviewCount);
+      document.getElementById("mentor-student-count").textContent = String(students.length);
     }
 
     function renderChallenges() {
@@ -2472,6 +2681,8 @@
 
     function renderRole() {
       const mentor = state.role === "mentor";
+      const activeStudent = students.find(student => student.id === state.activeStudentId) || students[0];
+      const activeMentor = mentors.find(person => person.id === state.activeMentorId) || mentors[0];
       document.getElementById("app-shell").dataset.workspaceRole = state.role;
       document.querySelectorAll("[data-role-nav]").forEach(nav => { nav.hidden = nav.dataset.roleNav !== state.role; });
       document.querySelectorAll("[data-role-view]").forEach(view => { view.hidden = view.dataset.roleView !== state.role; });
@@ -2486,9 +2697,9 @@
         : "<strong>A little progress, often.</strong>Try a challenge, stay curious, and bring your questions to your mentor.";
       document.querySelector(".workspace-label").textContent = mentor ? "MENTOR SPACE" : "STUDENT SPACE";
       document.querySelectorAll(".demo-message").forEach(message => message.classList.toggle("mine", message.dataset.sender === state.role));
-      document.getElementById("profile-name").textContent = mentor ? "Maya Chen" : "Alex Morgan";
-      document.getElementById("profile-avatar").textContent = mentor ? "MC" : "AM";
-      document.getElementById("profile-label").textContent = mentor ? "Mentor · Business & finance" : "Student · Learning explorer";
+      document.getElementById("profile-name").textContent = mentor ? activeMentor.name : activeStudent.name;
+      document.getElementById("profile-avatar").textContent = mentor ? activeMentor.initials : activeStudent.initials;
+      document.getElementById("profile-label").textContent = mentor ? `Mentor · ${activeMentor.specialty}` : `Student · ${activeStudent.specialty}`;
       document.getElementById("welcome-eyebrow").textContent = mentor ? "Your mentoring space" : "Your learning space";
       document.getElementById("welcome-title").textContent = mentor ? "A little guidance goes a long way." : "Hey, Alex. What are you curious about today?";
       document.getElementById("welcome-copy").textContent = mentor
@@ -2513,22 +2724,18 @@
       document.getElementById("quick-progress-title").textContent = mentor ? "View learner progress" : "See your progress";
       document.getElementById("quick-progress-copy").textContent = mentor ? "Celebrate the learner's milestones" : "Celebrate what you have done";
       document.getElementById("list-heading").textContent = mentor ? "Learner activity to review" : "On your desk";
-      document.getElementById("side-avatar").textContent = mentor ? "AM" : "MC";
-      document.getElementById("side-name").textContent = mentor ? "Alex Morgan" : "Dr. Maya Chen";
-      document.getElementById("side-subtitle").textContent = mentor ? "Your learner · Learning explorer" : "Your mentor · Business & finance";
+      document.getElementById("side-avatar").textContent = mentor ? activeStudent.initials : activeMentor.initials;
+      document.getElementById("side-name").textContent = mentor ? activeStudent.name : activeMentor.name;
+      document.getElementById("side-subtitle").textContent = mentor ? `Your learner · ${activeStudent.specialty}` : `Your mentor · ${activeMentor.specialty}`;
       document.getElementById("side-quote").textContent = mentor
         ? "“The best mentoring starts with listening. Ask what surprised them before sharing what you know.”"
         : "“You don't need to know the answer yet. Start with the question that won't leave you alone.”";
       document.getElementById("next-session").innerHTML = mentor
         ? '<div class="session-date"><strong>19</strong><small>Nov</small></div><div><strong>Next learner check-in</strong><small>Wednesday · 4:00 PM</small></div>'
         : '<div class="session-date"><strong>19</strong><small>Nov</small></div><div><strong>Next check-in</strong><small>Wednesday · 4:00 PM</small></div>';
-      document.getElementById("mentor-profile-avatar").textContent = mentor ? "AM" : "MC";
-      document.getElementById("mentor-profile-name").textContent = mentor ? "Alex Morgan" : "Dr. Maya Chen";
-      document.getElementById("mentor-profile-title").textContent = mentor ? "Your learner · Learning explorer" : "Volunteer mentor · Business & finance";
-      document.getElementById("conversation-recipient").textContent = mentor ? "Conversation with Alex Morgan" : "Conversation with Dr. Maya Chen";
       document.getElementById("mentoring-subheading").textContent = mentor
-        ? "A place to listen, give thoughtful feedback, and help your learner feel confident asking the next question."
-        : "A place to ask the questions, share the messy first draft, and celebrate what you figure out.";
+        ? "Choose any learner to chat one-on-one, share projects, and help them find their next question."
+        : "Choose a mentor, ask a question, share an idea, and keep each conversation in its own place.";
       document.getElementById("progress-side-title").textContent = mentor ? "Learner snapshot" : "Your learning snapshot";
       document.getElementById("crumb-label").textContent = mentor ? "Mentor workspace" : "Your learning space";
       document.getElementById("progress-subheading").textContent = mentor
@@ -2538,9 +2745,9 @@
       document.getElementById("progress-title").textContent = mentor ? "Learner progress" : "Your progress";
       document.getElementById("progress-xp-label").textContent = mentor ? "learner curiosity points" : "curiosity points";
       document.getElementById("progress-path-eyebrow").textContent = mentor ? "A learner's progress, not a grade" : "Look how far you've come";
-      document.getElementById("progress-path-title").textContent = mentor ? "Alex's learning lab path" : "Your learning lab path";
+      document.getElementById("progress-path-title").textContent = mentor ? `${activeStudent.name}'s learning lab path` : "Your learning lab path";
       document.getElementById("progress-wins-title").textContent = mentor ? "Progress to celebrate" : "Little wins";
-      document.getElementById("progress-activity-title").textContent = mentor ? "Missions Alex has explored" : "Missions you've explored";
+      document.getElementById("progress-activity-title").textContent = mentor ? `Missions ${activeStudent.name} has explored` : "Missions you've explored";
       document.getElementById("progress-completed-label").textContent = mentor ? "learner missions finished" : "learning missions finished";
       document.getElementById("progress-summary-missions").nextElementSibling.textContent = mentor ? "learner missions explored" : "missions explored";
       document.getElementById("progress-summary-xp").nextElementSibling.textContent = mentor ? "learner curiosity points" : "curiosity points earned";
@@ -2563,13 +2770,14 @@
       renderTasks();
       renderChallenges();
       renderBooking();
+      renderCommunication();
       renderProgress();
     }
 
     function renderProgress() {
       const completedChallenges = challenges.filter(challenge => isComplete(challenge.id));
       const nextChallenge = challenges.find(challenge => !isComplete(challenge.id));
-      const messageCount = state.messages.length;
+      const messageCount = currentThread().length;
       const level = Math.floor(state.xp / 500) + 2;
       const progress = Math.min(100, Math.round((state.xp % 500) / 5));
       const remainingXp = 500 - state.xp % 500;
@@ -2991,35 +3199,68 @@
       }
     }
 
-    function addMessage(text) {
-      const message = { text, role: state.role, createdAt: new Date().toISOString() };
-      state.messages.push(message);
-      state.messages = state.messages.slice(-50);
-      appendMessage(message);
-      saveState();
+    function addMessage(text, projectId = "") {
+      const mentor = mentors.find(person => person.id === state.activeMentorId);
+      const student = students.find(person => person.id === state.activeStudentId);
+      const message = {
+        text,
+        senderRole: state.role,
+        senderId: state.role === "mentor" ? state.activeMentorId : state.activeStudentId,
+        senderName: state.role === "mentor" ? mentor.name : student.name,
+        createdAt: new Date().toISOString(),
+        projectId
+      };
+      const thread = currentThread();
+      thread.push(message);
+      state.threads[currentThreadKey()] = thread.slice(-100);
+      const saved = saveState();
+      renderCommunication();
+      renderProgress();
+      return saved;
     }
 
-    function appendMessage(message) {
+    function appendMessage(message, scroll = true) {
       const conversation = document.getElementById("conversation");
       const bubble = document.createElement("div");
-      const isMine = message.role === state.role;
+      const isMine = message.senderRole === state.role &&
+        message.senderId === (state.role === "mentor" ? state.activeMentorId : state.activeStudentId);
       bubble.className = `message${isMine ? " mine" : ""} demo-message`;
-      bubble.textContent = message.text;
+      bubble.append(document.createTextNode(message.text));
       const timestamp = document.createElement("span");
       timestamp.className = "message-time";
-      const sender = message.role === "mentor" ? "Maya" : "Alex";
-      bubble.dataset.sender = message.role;
       const time = Date.parse(message.createdAt);
-      timestamp.textContent = `${sender} · ${Number.isFinite(time) ? new Date(time).toLocaleString([], { dateStyle: "short", timeStyle: "short" }) : "Saved on this device"}`;
+      timestamp.textContent = `${message.senderName || (message.senderRole === "mentor" ? "Mentor" : "Student")} · ${Number.isFinite(time) ? new Date(time).toLocaleString([], { dateStyle: "short", timeStyle: "short" }) : "Saved on this device"}`;
       bubble.appendChild(timestamp);
+      const challenge = challenges.find(item => item.id === message.projectId);
+      if (challenge) {
+        const projectButton = document.createElement("button");
+        projectButton.className = "button small secondary";
+        projectButton.type = "button";
+        projectButton.dataset.challenge = challenge.id;
+        projectButton.textContent = `Open project: ${challenge.title}`;
+        bubble.appendChild(projectButton);
+      }
       conversation.appendChild(bubble);
-      conversation.scrollTop = conversation.scrollHeight;
-      renderProgress();
+      if (scroll) conversation.scrollTop = conversation.scrollHeight;
     }
 
     document.addEventListener("click", event => {
       const target = event.target instanceof Element ? event.target : null;
       if (!target) return;
+      const contactButton = target.closest("[data-contact-id]");
+      if (contactButton) {
+        const contactId = contactButton.dataset.contactId;
+        if (state.role === "mentor" && students.some(student => student.id === contactId)) {
+          state.activeStudentId = contactId;
+        } else if (state.role === "student" && mentors.some(mentor => mentor.id === contactId)) {
+          state.activeMentorId = contactId;
+        } else {
+          return;
+        }
+        saveState();
+        renderRole();
+        return;
+      }
       if (target.closest("[data-surprise]")) {
         openSurpriseChallenge();
         return;
@@ -3117,7 +3358,23 @@
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") closeWorkspaceNav();
     });
-    document.getElementById("book-session").addEventListener("click", () => document.getElementById("booking-dialog").showModal());
+    document.getElementById("book-session").addEventListener("click", () => {
+      const mentorChoice = document.querySelector('#booking-form select[name="mentor"]');
+      mentorChoice.value = mentors.find(person => person.id === state.activeMentorId)?.name || "";
+      document.getElementById("booking-dialog").showModal();
+    });
+    document.getElementById("student-preview-select").addEventListener("change", event => {
+      if (!students.some(student => student.id === event.currentTarget.value)) return;
+      state.activeStudentId = event.currentTarget.value;
+      saveState();
+      renderRole();
+    });
+    document.getElementById("mentor-preview-select").addEventListener("change", event => {
+      if (!mentors.some(person => person.id === event.currentTarget.value)) return;
+      state.activeMentorId = event.currentTarget.value;
+      saveState();
+      renderRole();
+    });
     document.getElementById("booking-form").addEventListener("submit", event => {
       event.preventDefault();
       const formData = new FormData(event.currentTarget);
@@ -3146,10 +3403,36 @@
         input.focus();
         return;
       }
-      addMessage(message);
+      const saved = addMessage(message);
       input.value = "";
       document.getElementById("message-count").textContent = "0 / 240";
-      showToast("Message added to this browser's demo conversation; it was not delivered.");
+      showToast(saved
+        ? "Message saved in this browser's demo conversation. It was not sent to another account."
+        : "Message added for this tab only; browser storage is unavailable.");
+    });
+    document.getElementById("project-share-form").addEventListener("submit", event => {
+      event.preventDefault();
+      if (state.role !== "mentor") return;
+      const challengeId = String(new FormData(event.currentTarget).get("project") || "");
+      const challenge = challenges.find(item => item.id === challengeId);
+      if (!challenge || !students.some(student => student.id === state.activeStudentId)) {
+        showToast("Choose a project and a learner first.");
+        return;
+      }
+      const student = students.find(person => person.id === state.activeStudentId);
+      state.assignments.push({
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        studentId: state.activeStudentId,
+        mentorId: state.activeMentorId,
+        challengeId,
+        createdAt: new Date().toISOString()
+      });
+      state.assignments = state.assignments.slice(-100);
+      const saved = addMessage(`I sent you a project: ${challenge.title}.`, challengeId);
+      event.currentTarget.reset();
+      showToast(saved
+        ? `${challenge.title} added to ${student.name}'s demo inbox.`
+        : `${challenge.title} added for this tab only; browser storage is unavailable.`);
     });
     document.getElementById("message-input").addEventListener("input", event => {
       document.getElementById("message-count").textContent = `${event.currentTarget.value.length} / 240`;
@@ -3213,7 +3496,6 @@
 
     loadState();
     renderTheme();
-    state.messages.forEach(appendMessage);
     renderRole();
     setupHomeMotion();
   </script>
