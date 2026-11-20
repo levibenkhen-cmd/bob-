@@ -170,6 +170,9 @@
     .welcome-copy { max-width: 490px; position: relative; z-index: 1; }
     .welcome-copy h1 { font-size: 29px; }
     .welcome-copy p { max-width: 400px; margin-bottom: 16px; color: #596887; font-size: 13px; }
+    .overview-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .surprise-button .surprise-mark { display: inline-block; font-size: 16px; line-height: 1; transition: transform .35s ease; }
+    .surprise-button:hover .surprise-mark { transform: rotate(90deg); }
     .banner-art { width: 125px; height: 125px; position: relative; z-index: 1; display: grid; place-items: center; flex: 0 0 125px; border: 1px solid #fff9; border-radius: 38px 28px 40px 30px; background: #ffffff70; font-size: 59px; transform: rotate(4deg); }
     .visual-mark { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; font-weight: 800; letter-spacing: .08em; }
     .agenda-icon.visual-mark,
@@ -334,7 +337,8 @@
     .adventure-tag { color: var(--muted); font-size: 8px; font-weight: 750; letter-spacing: .1em; }
     .adventure-card h3 { margin: 0 0 5px; font-size: 14px; }
     .adventure-card p { margin: 0 0 15px; color: var(--muted); font-size: 11px; }
-    .adventure-card .button { align-self: flex-start; margin-top: auto; }
+    .adventure-card-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .adventure-card .button { align-self: flex-start; margin-top: 0; }
     .adventure-note { margin-top: 16px; padding: 13px 15px; border: 1px solid #f0dfc0; border-radius: 13px; background: #fcf7e9; color: #766641; font-size: 10px; }
     .adventure-note strong { color: #65532d; }
     .mentor-students { display: grid; gap: 11px; }
@@ -467,6 +471,9 @@
     @media (max-width: 540px) { .meeting-prep-grid { grid-template-columns: 1fr; } }
     .toast { position: fixed; right: 22px; bottom: 22px; z-index: 10; max-width: min(380px, calc(100% - 32px)); padding: 12px 16px; border-radius: 12px; background: #263d33; color: white; box-shadow: 0 8px 30px #15251c3b; font-size: 12px; opacity: 0; pointer-events: none; transform: translateY(9px); transition: .2s ease; }
     .toast.show { opacity: 1; transform: translateY(0); }
+    .celebration-piece { width: 8px; height: 13px; position: fixed; z-index: 11; top: 42vh; left: 50vw; border-radius: 2px; background: var(--celebration-color); pointer-events: none; animation: celebration-burst .95s cubic-bezier(.15,.7,.25,1) forwards; }
+    @keyframes celebration-burst { to { opacity: 0; transform: translate3d(var(--celebration-x),var(--celebration-y),0) rotate(var(--celebration-spin)) scale(.6); } }
+    @media (prefers-reduced-motion: reduce) { .celebration-piece { display: none; } }
     .mobile-menu { display: none; }
     .sr-only { width: 1px; height: 1px; position: absolute; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     .home-topbar { display: none; }
@@ -1913,9 +1920,12 @@
           <div class="welcome-banner">
             <div class="welcome-copy">
               <div class="eyebrow" id="welcome-eyebrow">Your learning space</div>
-              <h1 id="welcome-title" tabindex="-1">Curiosity looks good on you, Alex.</h1>
-              <p id="welcome-copy">A new week means new questions. Pick a science challenge, explore at your own pace, and bring what you discover to your mentor.</p>
-              <button class="button" id="overview-science-cta" type="button" data-go="science">Explore this week's challenge <span aria-hidden="true">→</span></button>
+              <h1 id="welcome-title" tabindex="-1">Hey, Alex. What are you curious about today?</h1>
+              <p id="welcome-copy">Pick a quick mission, explore an idea, or make your own move. No grades, no pressure—just something interesting to try.</p>
+              <div class="overview-actions">
+                <button class="button" id="overview-science-cta" type="button" data-go="science">Find a mission <span aria-hidden="true">→</span></button>
+                <button class="button secondary surprise-button" id="surprise-challenge" type="button" data-surprise><span class="surprise-mark" aria-hidden="true">↻</span> Surprise me</button>
+              </div>
             </div>
             <div class="banner-art visual-orbit" aria-hidden="true"></div>
           </div>
@@ -2111,45 +2121,48 @@
 
         <section class="page" id="page-adventure" aria-labelledby="adventure-title">
           <div class="heading">
-            <div><div class="eyebrow">YOUR NEXT ADVENTURE</div><h1 id="adventure-title" tabindex="-1">What sounds fun to try?</h1><p class="subheading">You don't need a perfect plan. Pick one small thing that feels interesting today, and take it at your own pace.</p></div>
+            <div><div class="eyebrow">YOUR NEXT MOVE</div><h1 id="adventure-title" tabindex="-1">What are you in the mood for?</h1><p class="subheading">Build something, get a fresh idea, talk it out, or see how far you've come. Your call.</p></div>
           </div>
           <div class="adventure-welcome">
             <div class="adventure-welcome-copy">
-              <span class="adventure-kicker">NO SCOREBOARD. NO WRONG WAY.</span>
-              <h2>Your path can change as you grow.</h2>
-              <p>Try something, ask a question, make a plan with someone you trust, or look back at a win. You get to choose what feels right for you.</p>
+              <span class="adventure-kicker">YOUR TIME. YOUR CALL.</span>
+              <h2>Try something. Make it yours.</h2>
+              <p>Take a mission somewhere new, bring your own idea, or ask someone to help you think it through. There isn't one right way to do it.</p>
             </div>
             <div class="adventure-steps" aria-label="Three easy steps">
-              <div class="adventure-step"><span>1</span><strong>Pick</strong><small>what sounds good</small></div>
-              <div class="adventure-step"><span>2</span><strong>Try</strong><small>one small step</small></div>
-              <div class="adventure-step"><span>3</span><strong>Celebrate</strong><small>what you learn</small></div>
+              <div class="adventure-step"><span>1</span><strong>Choose</strong><small>your direction</small></div>
+              <div class="adventure-step"><span>2</span><strong>Explore</strong><small>at your pace</small></div>
+              <div class="adventure-step"><span>3</span><strong>Own it</strong><small>your way forward</small></div>
             </div>
           </div>
           <section class="adventure-section" aria-labelledby="adventure-choices-title">
-            <div class="adventure-section-heading"><h2 id="adventure-choices-title">Choose your next move</h2><p>There are lots of ways to grow. Start with whichever one sounds best.</p></div>
+            <div class="adventure-section-heading"><h2 id="adventure-choices-title">Choose a lane</h2><p>Start anywhere. Switch it up whenever you want.</p></div>
             <div class="adventure-grid">
               <article class="card adventure-card">
                 <div class="adventure-card-top"><span class="adventure-icon" aria-hidden="true">MAKE</span><span class="adventure-tag">TRY SOMETHING</span></div>
                 <h3>Make or solve something</h3>
-                <p>Pick a science, business, or money mission and make it your own.</p>
-                <button class="button small" type="button" data-go="science">Explore missions <span aria-hidden="true">→</span></button>
+                <p>Try a science, business, or money mission. Or let the app pick one for you.</p>
+                <div class="adventure-card-actions">
+                  <button class="button small" type="button" data-go="science">Explore missions <span aria-hidden="true">→</span></button>
+                  <button class="button small secondary surprise-button" type="button" data-surprise><span class="surprise-mark" aria-hidden="true">↻</span> Surprise me</button>
+                </div>
               </article>
               <article class="card adventure-card">
                 <div class="adventure-card-top"><span class="adventure-icon" aria-hidden="true">PEOPLE</span><span class="adventure-tag">TEAM UP</span></div>
-                <h3>Talk it through with a mentor</h3>
-                <p>Bring a question, a win, or an idea to someone who's here to help.</p>
+                <h3>Talk it out</h3>
+                <p>Bring a question or half-formed idea. No big speech needed.</p>
                 <button class="button small" type="button" data-open-booking>Plan a check-in <span aria-hidden="true">→</span></button>
               </article>
               <article class="card adventure-card">
                 <div class="adventure-card-top"><span class="adventure-icon" aria-hidden="true">IDEAS</span><span class="adventure-tag">GET INSPIRED</span></div>
-                <h3>Get a fresh idea</h3>
-                <p>Ask the AI coach to help brainstorm, practice, or explore a big question.</p>
+                <h3>Brainstorm with AI</h3>
+                <p>Get unstuck, try a quick quiz, or explore an idea from a new angle.</p>
                 <button class="button small" type="button" data-go="ai-coach">Visit the AI coach <span aria-hidden="true">→</span></button>
               </article>
               <article class="card adventure-card">
                 <div class="adventure-card-top"><span class="adventure-icon" aria-hidden="true">WINS</span><span class="adventure-tag">LOOK HOW FAR</span></div>
-                <h3>See what you've already done</h3>
-                <p>Every try, finished mission, and new question counts as progress.</p>
+                <h3>Check your progress</h3>
+                <p>See what you've tried, what you've finished, and what's next.</p>
                 <button class="button small" type="button" data-go="progress">See my progress <span aria-hidden="true">→</span></button>
               </article>
             </div>
@@ -2354,11 +2367,13 @@
       document.getElementById("profile-avatar").textContent = mentor ? "MC" : "AM";
       document.getElementById("profile-label").textContent = mentor ? "Mentor · Business & finance" : "Student · Learning explorer";
       document.getElementById("welcome-eyebrow").textContent = mentor ? "Your mentoring space" : "Your learning space";
-      document.getElementById("welcome-title").textContent = mentor ? "A little guidance goes a long way." : "Curiosity looks good on you, Alex.";
+      document.getElementById("welcome-title").textContent = mentor ? "A little guidance goes a long way." : "Hey, Alex. What are you curious about today?";
       document.getElementById("welcome-copy").textContent = mentor
         ? "A good question can open a whole new world. Check in with your learners, review their experiments, and help them find their next question."
-        : "A new week means new questions. Pick a science challenge, explore at your own pace, and bring what you discover to your mentor.";
-      document.getElementById("overview-science-cta").innerHTML = mentor ? 'Review learner challenges <span aria-hidden="true">→</span>' : 'Explore this week\'s challenge <span aria-hidden="true">→</span>';
+        : "Pick a quick mission, explore an idea, or make your own move. No grades, no pressure—just something interesting to try.";
+      document.getElementById("overview-science-cta").innerHTML = mentor ? 'Review learner challenges <span aria-hidden="true">→</span>' : 'Find a mission <span aria-hidden="true">→</span>';
+      document.getElementById("surprise-challenge").innerHTML = `<span class="surprise-mark" aria-hidden="true">↻</span> ${mentor ? "Pick a review" : "Surprise me"}`;
+      document.getElementById("surprise-challenge").setAttribute("aria-label", mentor ? "Pick a challenge waiting for review" : "Open a random unfinished mission");
       document.getElementById("quick-science-title").textContent = mentor ? "Review learner work" : "Try a learning mission";
       document.getElementById("quick-science-copy").textContent = mentor ? "Give feedback on submitted challenges" : "Explore a hands-on challenge";
       document.getElementById("quick-mentor-title").textContent = mentor ? "Plan a learner check-in" : "Plan a mentor check-in";
@@ -2785,6 +2800,42 @@
       dialog.showModal();
     }
 
+    function openSurpriseChallenge() {
+      const options = challenges.filter(challenge => state.role === "mentor"
+        ? isComplete(challenge.id) && !state.feedback[challenge.id]
+        : !isComplete(challenge.id));
+      if (!options.length) {
+        showToast(state.role === "mentor" ? "Nothing waiting for review right now." : "You explored every mission—nice work. Check back for more soon.");
+        return;
+      }
+      const previousId = openSurpriseChallenge.lastId;
+      const freshOptions = options.length > 1 ? options.filter(challenge => challenge.id !== previousId) : options;
+      const choice = freshOptions[Math.floor(Math.random() * freshOptions.length)];
+      openSurpriseChallenge.lastId = choice.id;
+      if (state.role !== "mentor") {
+        activeFilter = "All";
+        document.querySelectorAll("[data-filter]").forEach(button => button.classList.toggle("active", button.dataset.filter === "All"));
+      }
+      renderChallenges();
+      openChallenge(choice.id);
+    }
+
+    function celebrateMission() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const colors = ["#6678ff", "#a48aff", "#54c9a1", "#f0bf5c", "#ff8f78"];
+      for (let index = 0; index < 26; index += 1) {
+        const piece = document.createElement("span");
+        piece.className = "celebration-piece";
+        piece.setAttribute("aria-hidden", "true");
+        piece.style.setProperty("--celebration-color", colors[index % colors.length]);
+        piece.style.setProperty("--celebration-x", `${Math.round(Math.random() * 440 - 220)}px`);
+        piece.style.setProperty("--celebration-y", `${Math.round(Math.random() * 320 + 80)}px`);
+        piece.style.setProperty("--celebration-spin", `${Math.round(Math.random() * 600 - 300)}deg`);
+        piece.addEventListener("animationend", () => piece.remove(), { once: true });
+        document.body.appendChild(piece);
+      }
+    }
+
     function addMessage(text) {
       const message = { text, role: state.role, createdAt: new Date().toISOString() };
       state.messages.push(message);
@@ -2814,6 +2865,10 @@
     document.addEventListener("click", event => {
       const target = event.target instanceof Element ? event.target : null;
       if (!target) return;
+      if (target.closest("[data-surprise]")) {
+        openSurpriseChallenge();
+        return;
+      }
       const pageButton = target.closest("[data-page], [data-go]");
       if (pageButton) {
         switchPage(pageButton.dataset.page || pageButton.dataset.go);
@@ -2857,7 +2912,8 @@
         saveState();
         document.getElementById("detail-dialog").close();
         renderRole();
-        showToast(`Nice work! ${challenge.xp} curiosity points added.`);
+        celebrateMission();
+        showToast(`Mission complete — +${challenge.xp} points. Nice one.`);
         return;
       }
       const feedbackButton = target.closest("[data-feedback]");
