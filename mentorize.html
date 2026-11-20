@@ -244,6 +244,40 @@
     .assigned-project strong { font-size: 10px; }
     .assigned-project small { color: var(--muted); font-size: 9px; }
     .communication-note { margin: 12px 0 0; color: var(--muted); font-size: 9px; }
+    .class-hero { position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; min-height: 180px; margin-bottom: 16px; padding: 23px; border: 1px solid #dfe5ff; border-radius: 17px; background: linear-gradient(120deg,#e9edff,#f3eefc 58%,#e8f4ee); }
+    .class-hero:after { content: "CLASS"; position: absolute; right: 6%; bottom: -34px; color: #ffffff9e; font-size: 100px; font-weight: 850; letter-spacing: -.08em; pointer-events: none; }
+    .class-hero-copy,.class-teacher-card { position: relative; z-index: 1; }
+    .class-hero-kicker { margin-bottom: 7px; color: #596bd2; font-size: 9px; font-weight: 800; letter-spacing: .14em; }
+    .class-hero h2 { margin: 0 0 5px; font-size: clamp(23px,4vw,32px); letter-spacing: -.04em; }
+    .class-hero p { max-width: 520px; margin: 0; color: #667187; font-size: 11px; }
+    .class-teacher-card { min-width: 205px; padding: 13px; border: 1px solid #ffffffb8; border-radius: 12px; background: #ffffffc9; }
+    .class-teacher-card small,.class-teacher-card strong { display: block; }
+    .class-teacher-card small { margin-bottom: 4px; color: var(--muted); font-size: 9px; }
+    .class-teacher-card strong { font-size: 12px; }
+    .class-teacher-person { display: flex; align-items: center; gap: 9px; }
+    .class-teacher-avatar { width: 35px; height: 35px; display: grid; place-items: center; flex: 0 0 35px; border-radius: 50%; background: var(--lavender); color: #5c5378; font-size: 10px; font-weight: 800; }
+    .class-detail-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-bottom: 16px; }
+    .class-detail { padding: 12px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
+    .class-detail small,.class-detail strong { display: block; }
+    .class-detail small { color: var(--muted); font-size: 9px; }
+    .class-detail strong { margin-top: 3px; font-size: 11px; }
+    .class-page-grid { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(240px,.65fr); gap: 15px; }
+    .class-assignment-list { display: grid; gap: 10px; }
+    .class-assignment { display: grid; grid-template-columns: 42px minmax(0,1fr) auto; align-items: center; gap: 11px; padding: 13px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+    .class-assignment-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: var(--lavender); color: #5c5378; font-size: 10px; font-weight: 800; }
+    .class-assignment-copy { min-width: 0; }
+    .class-assignment-copy strong,.class-assignment-copy small { display: block; }
+    .class-assignment-copy strong { margin-bottom: 3px; font-size: 11px; }
+    .class-assignment-copy small { color: var(--muted); font-size: 9px; }
+    .class-roster { display: grid; gap: 8px; }
+    .class-roster-person { display: flex; align-items: center; gap: 9px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .class-roster-person:last-child { border-bottom: 0; }
+    .class-roster-person strong,.class-roster-person small { display: block; }
+    .class-roster-person strong { font-size: 10px; }
+    .class-roster-person small { color: var(--muted); font-size: 9px; }
+    .class-post-form { display: grid; gap: 10px; }
+    .class-post-form .field { margin: 0; }
+    .class-assignment-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
     .role-view[hidden], [data-role-view][hidden], [data-role-nav][hidden] { display: none !important; }
     .role-only-empty { padding: 17px; border: 1px dashed var(--line); border-radius: 13px; color: var(--muted); font-size: 11px; }
     .list { display: grid; gap: 10px; }
@@ -685,6 +719,7 @@
       .workspace-extra-card p { min-height: 0; }
       .mentor-prompt-grid { grid-template-columns: 1fr; }
       .communication-layout { grid-template-columns: 1fr; }
+      .class-page-grid { grid-template-columns: 1fr; }
       .contact-list { grid-template-columns: repeat(2,minmax(0,1fr)); max-height: 210px; }
       .home-topbar { min-height: 66px !important; padding: 0 18px !important; }
       .home-nav { gap: 15px; }
@@ -715,6 +750,12 @@
       .challenge-art { height: 112px; }
       .role-switch button { padding: 6px 7px; font-size: 10px; }
       .project-share-form { align-items: stretch; flex-direction: column; }
+      .class-hero { align-items: flex-start; flex-direction: column; }
+      .class-teacher-card { width: 100%; }
+      .class-detail-grid { grid-template-columns: 1fr; }
+      .class-assignment { grid-template-columns: 36px minmax(0,1fr); }
+      .class-assignment > .button { grid-column: 2; justify-self: start; }
+      .class-assignment-icon { width: 36px; height: 36px; }
       .top-actions { gap: 6px; }
       .role-label, .workspace-label { display: none; }
       .crumb { overflow: hidden; }
@@ -1805,6 +1846,7 @@
         <button class="active" type="button" data-page="home"><span class="nav-icon" aria-hidden="true">⌂</span>Home</button>
         <button type="button" data-page="overview"><span class="nav-icon" aria-hidden="true">▦</span>My workspace</button>
         <button type="button" data-page="science"><span class="nav-icon" aria-hidden="true">✳</span>Learning lab<span class="nav-count" id="task-count">3</span></button>
+        <button type="button" data-page="class"><span class="nav-icon" aria-hidden="true">▤</span>My class<span class="nav-count" id="class-assignment-count">0</span></button>
         <button type="button" data-page="mentoring"><span class="nav-icon" aria-hidden="true">♡</span>My mentor</button>
         <button type="button" data-page="ai-coach"><span class="nav-icon" aria-hidden="true">✧</span>AI study coach</button>
         <button type="button" data-page="adventure"><span class="nav-icon" aria-hidden="true">✧</span>Find my next step</button>
@@ -1814,6 +1856,7 @@
         <button class="active" type="button" data-page="home"><span class="nav-icon" aria-hidden="true">⌂</span>Home</button>
         <button type="button" data-page="overview"><span class="nav-icon" aria-hidden="true">▦</span>Mentor hub</button>
         <button type="button" data-page="science"><span class="nav-icon" aria-hidden="true">✳</span>Learner work<span class="nav-count" id="mentor-task-count">1</span></button>
+        <button type="button" data-page="class"><span class="nav-icon" aria-hidden="true">▤</span>Class settings<span class="nav-count" id="mentor-class-assignment-count">0</span></button>
         <button type="button" data-page="mentoring"><span class="nav-icon" aria-hidden="true">♡</span>My learners</button>
         <button type="button" data-page="ai-coach"><span class="nav-icon" aria-hidden="true">✧</span>Coaching ideas</button>
         <button type="button" data-page="progress"><span class="nav-icon" aria-hidden="true">↗</span>Learner progress</button>
@@ -2090,6 +2133,51 @@
           </div>
           <div class="challenge-grid" id="challenge-grid"></div>
           <p class="footer-note" id="science-footer-note">Try these activities with a trusted adult nearby. Follow the safety notes in each challenge.</p>
+        </section>
+
+        <section class="page" id="page-class" aria-labelledby="class-page-title">
+          <div class="heading">
+            <div><div class="eyebrow" id="class-page-eyebrow">YOUR CLASSROOM</div><h1 id="class-page-title" tabindex="-1">My class</h1><p class="subheading" id="class-page-subheading">See your class, teacher, and projects all in one place.</p></div>
+          </div>
+          <section class="class-hero" aria-labelledby="class-name">
+            <div class="class-hero-copy">
+              <div class="class-hero-kicker">JETS · LEARNING TOGETHER</div>
+              <h2 id="class-name">Business &amp; Finance Lab</h2>
+              <p>Explore ideas, practice real-world skills, and share what you learn with your class.</p>
+            </div>
+            <div class="class-teacher-card">
+              <small>YOUR TEACHER / MENTOR</small>
+              <div class="class-teacher-person"><span class="class-teacher-avatar" id="class-teacher-avatar" aria-hidden="true">MC</span><strong id="class-teacher-name">Dr. Maya Chen</strong></div>
+            </div>
+          </section>
+          <div class="class-detail-grid" aria-label="Class details">
+            <div class="class-detail"><small>CLASS</small><strong id="class-detail-name">Business &amp; Finance Lab</strong></div>
+            <div class="class-detail"><small>LEARNING AREAS</small><strong>Business and AI · Personal Finance</strong></div>
+            <div class="class-detail"><small>CLASSMATES</small><strong id="class-detail-roster">3 demo students</strong></div>
+          </div>
+          <div class="class-page-grid">
+            <section class="card" aria-labelledby="class-assignments-title">
+              <div class="card-heading"><h2 id="class-assignments-title">Assignments from your teacher</h2><span class="status in-progress" id="class-assignment-summary">0 assignments</span></div>
+              <p class="subheading" id="class-assignment-help">Open an assignment to see what you will work on.</p>
+              <div class="class-assignment-list" id="class-assignment-list"></div>
+            </section>
+            <aside class="card" aria-labelledby="class-roster-title">
+              <div class="card-heading"><h2 id="class-roster-title">People in this class</h2></div>
+              <div class="class-roster" id="class-roster"></div>
+              <p class="communication-note">Sample classroom for this demo. Class details and assignments are only saved in this browser.</p>
+            </aside>
+          </div>
+          <section class="card" id="class-teacher-tools" hidden aria-labelledby="class-teacher-tools-title" style="margin-top:15px">
+            <div class="card-heading"><h2 id="class-teacher-tools-title">Post an assignment</h2><span class="status">TEACHER TOOLS</span></div>
+            <p class="subheading">Choose a project and decide whether to share it with the whole class or one learner.</p>
+            <form class="class-post-form" id="class-post-form">
+              <label class="field" for="class-post-project">Project<select id="class-post-project" name="project" required></select></label>
+              <label class="field" for="class-post-recipient">Send to<select id="class-post-recipient" name="recipient" required></select></label>
+              <label class="field" for="class-post-due">Due date (optional)<input id="class-post-due" name="dueDate" type="date"></label>
+              <button class="button" type="submit">Post assignment</button>
+            </form>
+            <p class="communication-note">This demo adds assignments to learner class pages in this browser. It does not notify real students.</p>
+          </section>
         </section>
 
         <section class="page" id="page-mentoring" aria-label="Mentoring">
@@ -2387,6 +2475,7 @@
       { id: "jeff", name: "Jeff", initials: "J", specialty: "Student" },
       { id: "bob", name: "Bob", initials: "B", specialty: "Student" }
     ];
+    const demoClass = { id: "jets-business-finance", name: "Business & Finance Lab" };
     const initialState = {
       role: "student",
       theme: "dark",
@@ -2397,7 +2486,15 @@
       activeStudentId: "alex",
       activeMentorId: "maya",
       threads: {},
-      assignments: []
+      assignments: [{
+        id: "welcome-class-assignment",
+        classId: demoClass.id,
+        studentId: "alex",
+        mentorId: "maya",
+        challengeId: "paper-bridge",
+        createdAt: new Date().toISOString(),
+        dueDate: ""
+      }]
     };
     let state = { ...initialState };
     let activeFilter = "All";
@@ -2486,7 +2583,7 @@
       }
 
       function loadAssignments(savedAssignments) {
-        if (!Array.isArray(savedAssignments)) return [];
+        if (!Array.isArray(savedAssignments) || !savedAssignments.length) return initialState.assignments.map(assignment => ({ ...assignment }));
         return savedAssignments.filter(assignment =>
           assignment &&
           typeof assignment.id === "string" &&
@@ -2495,10 +2592,12 @@
           challenges.some(challenge => challenge.id === assignment.challengeId)
         ).slice(-100).map(assignment => ({
           id: assignment.id.slice(0, 80),
+          classId: demoClass.id,
           studentId: assignment.studentId,
           mentorId: assignment.mentorId,
           challengeId: assignment.challengeId,
-          createdAt: typeof assignment.createdAt === "string" ? assignment.createdAt : ""
+          createdAt: typeof assignment.createdAt === "string" ? assignment.createdAt : "",
+          dueDate: typeof assignment.dueDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(assignment.dueDate) ? assignment.dueDate : ""
         }));
       }
     }
@@ -2605,7 +2704,7 @@
         const challenge = challenges.find(item => item.id === assignment.challengeId);
         const sender = mentors.find(person => person.id === assignment.mentorId);
         if (!challenge || !sender) return "";
-        return `<article class="assigned-project"><div><strong>${escapeHtml(challenge.title)}</strong><small>From ${escapeHtml(sender.name)} · ${escapeHtml(challenge.subject)}</small></div><button class="button small secondary" type="button" data-challenge="${challenge.id}">Open</button></article>`;
+        return `<article class="assigned-project"><div><strong>${escapeHtml(challenge.title)}</strong><small>${escapeHtml(demoClass.name)} · From ${escapeHtml(sender.name)}</small></div><button class="button small secondary" type="button" data-challenge="${challenge.id}">Open</button></article>`;
       }).join("") : `<p class="conversation-empty">No projects yet. When a mentor sends you one, it'll appear here.</p>`;
       document.getElementById("mentor-learner-summary").innerHTML = `
         <article class="mentor-learner-card">
@@ -2619,6 +2718,67 @@
         </article>`;
       document.getElementById("message-count").textContent = `${document.getElementById("message-input").value.length} / 240`;
       document.getElementById("conversation").scrollTop = document.getElementById("conversation").scrollHeight;
+    }
+
+    function renderClassroom() {
+      const mentorRole = state.role === "mentor";
+      const activeStudent = students.find(student => student.id === state.activeStudentId) || students[0];
+      const activeMentor = mentors.find(person => person.id === state.activeMentorId) || mentors[0];
+      document.getElementById("class-page-title").textContent = mentorRole ? "Class settings" : "My class";
+      document.getElementById("class-page-eyebrow").textContent = mentorRole ? "TEACHER VIEW" : "YOUR CLASSROOM";
+      document.getElementById("class-page-subheading").textContent = mentorRole
+        ? "See your class roster and the assignments shared with your learners."
+        : "See your class, teacher, and assignments all in one place.";
+      document.getElementById("class-name").textContent = demoClass.name;
+      document.getElementById("class-detail-name").textContent = demoClass.name;
+      document.getElementById("class-teacher-avatar").textContent = activeMentor.initials;
+      document.getElementById("class-teacher-name").textContent = activeMentor.name;
+      document.getElementById("class-detail-roster").textContent = `${students.length} demo students`;
+      document.getElementById("class-assignments-title").textContent = mentorRole ? "Assignments shared with class" : "Assignments from your teacher";
+      document.getElementById("class-assignment-help").textContent = mentorRole
+        ? "See what each learner has received, or post a new project to the class."
+        : "Your teacher and class details are shown on every assignment.";
+      document.getElementById("class-teacher-tools").hidden = !mentorRole;
+
+      const visibleAssignments = state.assignments.filter(assignment =>
+        mentorRole || assignment.studentId === state.activeStudentId
+      ).slice().sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt));
+      document.getElementById("class-assignment-summary").textContent = `${visibleAssignments.length} assignment${visibleAssignments.length === 1 ? "" : "s"}`;
+      document.getElementById("class-assignment-count").textContent = String(
+        state.assignments.filter(assignment => assignment.studentId === state.activeStudentId).length
+      );
+      document.getElementById("mentor-class-assignment-count").textContent = String(state.assignments.length);
+
+      const assignmentList = document.getElementById("class-assignment-list");
+      assignmentList.innerHTML = visibleAssignments.length ? visibleAssignments.map(assignment => {
+        const challenge = challenges.find(item => item.id === assignment.challengeId);
+        const teacher = mentors.find(person => person.id === assignment.mentorId);
+        const student = students.find(person => person.id === assignment.studentId);
+        if (!challenge || !teacher || !student) return "";
+        const dateLabel = assignment.dueDate
+          ? `Due ${new Date(`${assignment.dueDate}T00:00:00`).toLocaleDateString([], { month: "short", day: "numeric" })}`
+          : `Posted ${Number.isFinite(Date.parse(assignment.createdAt)) ? new Date(assignment.createdAt).toLocaleDateString([], { month: "short", day: "numeric" }) : "for practice"}`;
+        const detail = mentorRole
+          ? `${demoClass.name} · For ${student.name} · Teacher: ${teacher.name}`
+          : `${demoClass.name} · Teacher: ${teacher.name}`;
+        return `<article class="class-assignment"><span class="class-assignment-icon" aria-hidden="true">${escapeHtml(challenge.emoji)}</span><div class="class-assignment-copy"><strong>${escapeHtml(challenge.title)}</strong><small>${escapeHtml(detail)}</small><div class="class-assignment-meta"><span class="status in-progress">${escapeHtml(dateLabel)}</span><span class="status">${escapeHtml(challenge.subject)}</span></div></div><button class="button small secondary" type="button" data-challenge="${challenge.id}">${mentorRole ? "View" : "Open"}</button></article>`;
+      }).join("") : `<div class="empty-state">${mentorRole ? "No assignments have been shared with this class yet." : "Your teacher has not posted an assignment yet. Check back here later."}</div>`;
+
+      document.getElementById("class-roster-title").textContent = mentorRole ? "Students in your class" : "Classmates";
+      document.getElementById("class-roster").innerHTML = students.map(student => `
+        <div class="class-roster-person">
+          <span class="contact-avatar" aria-hidden="true">${escapeHtml(student.initials)}</span>
+          <span><strong>${escapeHtml(student.name)}${!mentorRole && student.id === state.activeStudentId ? " · You" : ""}</strong><small>${escapeHtml(student.specialty)}</small></span>
+        </div>`).join("");
+
+      const projectSelect = document.getElementById("class-post-project");
+      projectSelect.innerHTML = `<option value="">Choose a project…</option>${challenges.map(challenge =>
+        `<option value="${challenge.id}">${escapeHtml(challenge.title)}</option>`
+      ).join("")}`;
+      const recipientSelect = document.getElementById("class-post-recipient");
+      recipientSelect.innerHTML = `<option value="class">Entire class (${students.length} students)</option>${students.map(student =>
+        `<option value="${student.id}">${escapeHtml(student.name)}</option>`
+      ).join("")}`;
     }
 
     function challengeStatus(challenge) {
@@ -2771,6 +2931,7 @@
       renderChallenges();
       renderBooking();
       renderCommunication();
+      renderClassroom();
       renderProgress();
     }
 
@@ -3097,6 +3258,7 @@
       const crumbLabels = {
         overview: state.role === "mentor" ? "Mentor overview" : "Student overview",
         science: state.role === "mentor" ? "Learner missions" : "Learning lab",
+        class: state.role === "mentor" ? "Class settings" : "My class",
         mentoring: "Mentoring",
         "ai-coach": "AI study coach",
         adventure: "Find my next step",
@@ -3422,10 +3584,12 @@
       const student = students.find(person => person.id === state.activeStudentId);
       state.assignments.push({
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        classId: demoClass.id,
         studentId: state.activeStudentId,
         mentorId: state.activeMentorId,
         challengeId,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        dueDate: ""
       });
       state.assignments = state.assignments.slice(-100);
       const saved = addMessage(`I sent you a project: ${challenge.title}.`, challengeId);
@@ -3433,6 +3597,57 @@
       showToast(saved
         ? `${challenge.title} added to ${student.name}'s demo inbox.`
         : `${challenge.title} added for this tab only; browser storage is unavailable.`);
+    });
+    document.getElementById("class-post-form").addEventListener("submit", event => {
+      event.preventDefault();
+      if (state.role !== "mentor") {
+        showToast("Only the mentor workspace can post a class assignment.");
+        return;
+      }
+      const formData = new FormData(event.currentTarget);
+      const challengeId = String(formData.get("project") || "");
+      const recipient = String(formData.get("recipient") || "");
+      const dueDate = String(formData.get("dueDate") || "");
+      const challenge = challenges.find(item => item.id === challengeId);
+      const recipients = recipient === "class"
+        ? students
+        : students.filter(student => student.id === recipient);
+      if (!challenge || !recipients.length || (dueDate && !/^\d{4}-\d{2}-\d{2}$/.test(dueDate))) {
+        showToast("Choose a project and a class or student before posting.");
+        return;
+      }
+      const createdAt = new Date().toISOString();
+      const teacher = mentors.find(person => person.id === state.activeMentorId);
+      recipients.forEach(student => {
+        state.assignments.push({
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          classId: demoClass.id,
+          studentId: student.id,
+          mentorId: state.activeMentorId,
+          challengeId,
+          createdAt,
+          dueDate
+        });
+        const key = `${state.activeMentorId}:${student.id}`;
+        if (!Array.isArray(state.threads[key])) state.threads[key] = [];
+        state.threads[key].push({
+          text: `Your teacher posted a class assignment: ${challenge.title}.`,
+          senderRole: "mentor",
+          senderId: state.activeMentorId,
+          senderName: teacher.name,
+          createdAt,
+          projectId: challenge.id
+        });
+        state.threads[key] = state.threads[key].slice(-100);
+      });
+      state.assignments = state.assignments.slice(-100);
+      const saved = saveState();
+      event.currentTarget.reset();
+      renderRole();
+      const audience = recipient === "class" ? `the whole class (${recipients.length} students)` : recipients[0].name;
+      showToast(saved
+        ? `${challenge.title} posted to ${audience}.`
+        : `${challenge.title} posted for this tab only; browser storage is unavailable.`);
     });
     document.getElementById("message-input").addEventListener("input", event => {
       document.getElementById("message-count").textContent = `${event.currentTarget.value.length} / 240`;
