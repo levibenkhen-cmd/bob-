@@ -130,6 +130,7 @@
     .card-heading h2 { margin: 0; }
     .link-button { padding: 4px 0; border: 0; background: none; color: var(--green); font-size: 11px; font-weight: 700; }
     .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(260px, .9fr); gap: 18px; }
+    .dashboard-grid > * { min-width: 0; }
     .quick-actions { margin: 0 0 18px; }
     .quick-actions-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
     .quick-actions-heading h2 { margin: 0; font-size: 14px; }
@@ -190,6 +191,30 @@
     .stat:nth-child(3) .stat-icon { background: var(--lavender); }
     .stat strong { display: block; font-size: 19px; line-height: 1.1; }
     .stat small { color: var(--muted); font-size: 10px; }
+    .workspace-extra { margin-top: 20px; }
+    .workspace-extra-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .workspace-extra-heading h2 { margin: 0 0 3px; font-size: 16px; }
+    .workspace-extra-heading p { margin: 0; color: var(--muted); font-size: 10px; }
+    .workspace-extra-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 11px; }
+    .workspace-extra-card { min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+    .workspace-extra-mark { width: 32px; height: 32px; display: grid; place-items: center; margin-bottom: 10px; border-radius: 10px; background: var(--green-soft); color: var(--green-dark); font-size: 10px; font-weight: 800; }
+    .workspace-extra-card:nth-child(2) .workspace-extra-mark { background: var(--yellow-soft); color: #806b30; }
+    .workspace-extra-card:nth-child(3) .workspace-extra-mark { background: var(--lavender); color: #5c5378; }
+    .workspace-extra-card strong { display: block; margin-bottom: 3px; font-size: 11px; }
+    .workspace-extra-card p { min-height: 32px; margin: 0 0 10px; color: var(--muted); font-size: 10px; }
+    .workspace-extra-card button { padding: 0; border: 0; background: transparent; color: var(--green-dark); font-size: 10px; font-weight: 750; }
+    .mentor-summary-grid { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(260px,.9fr); gap: 14px; }
+    .mentor-learner-card { display: flex; align-items: flex-start; gap: 13px; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+    .mentor-learner-avatar { width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 44px; border-radius: 14px; background: var(--lavender); color: #5c5378; font-size: 11px; font-weight: 800; }
+    .mentor-learner-copy { min-width: 0; flex: 1; }
+    .mentor-learner-copy strong { display: block; margin-bottom: 2px; font-size: 12px; }
+    .mentor-learner-copy small { display: block; color: var(--muted); font-size: 10px; }
+    .mentor-learner-copy p { margin: 8px 0 10px; color: var(--muted); font-size: 10px; }
+    .mentor-prompt-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 9px; }
+    .mentor-prompt-button { min-height: 64px; padding: 11px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-align: left; font-size: 10px; font-weight: 650; transition: transform .18s ease,border-color .18s ease; }
+    .mentor-prompt-button:hover { transform: translateY(-2px); border-color: #b7c1ff; }
+    .role-view[hidden], [data-role-view][hidden], [data-role-nav][hidden] { display: none !important; }
+    .role-only-empty { padding: 17px; border: 1px dashed var(--line); border-radius: 13px; color: var(--muted); font-size: 11px; }
     .list { display: grid; gap: 10px; }
     .task-row { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid #edf0ec; border-radius: 13px; background: white; color: inherit; text-align: left; transition: transform .22s, border-color .22s, box-shadow .22s; }
     .task-row:hover { transform: translateX(3px) scale(1.012); border-color: #cbd2ff; box-shadow: 0 7px 18px #283e660d; }
@@ -622,8 +647,12 @@
       .crumb { margin-right: auto; }
       .content { padding: 23px 16px 42px; }
       .dashboard-grid, .mentoring-grid, .progress-layout { grid-template-columns: 1fr; }
+      .mentor-summary-grid { grid-template-columns: 1fr; }
       .quick-action-grid { grid-template-columns: 1fr; gap: 8px; }
       .quick-action { min-height: 65px; }
+      .workspace-extra-grid { grid-template-columns: 1fr; }
+      .workspace-extra-card p { min-height: 0; }
+      .mentor-prompt-grid { grid-template-columns: 1fr; }
       .home-topbar { min-height: 66px !important; padding: 0 18px !important; }
       .home-nav { gap: 15px; }
       .home-nav a { font-size: 10px; }
@@ -1737,18 +1766,26 @@
         <img class="jets-logo" src="assets/mentorize/jets-logo.jpeg" alt="JETS">
         <div class="brand-name">Mentorize<small>student development</small></div>
       </div>
-      <div class="nav-label">Workspace</div>
-      <nav class="nav" aria-label="Workspace">
+      <div class="nav-label" id="workspace-nav-label">Student space</div>
+      <nav class="nav" aria-label="Student workspace" data-role-nav="student">
         <button class="active" type="button" data-page="home"><span class="nav-icon" aria-hidden="true">⌂</span>Home</button>
-        <button type="button" data-page="overview"><span class="nav-icon" aria-hidden="true">▦</span>Workspace</button>
+        <button type="button" data-page="overview"><span class="nav-icon" aria-hidden="true">▦</span>My workspace</button>
         <button type="button" data-page="science"><span class="nav-icon" aria-hidden="true">✳</span>Learning lab<span class="nav-count" id="task-count">3</span></button>
-        <button type="button" data-page="mentoring"><span class="nav-icon" aria-hidden="true">♡</span>Mentoring</button>
+        <button type="button" data-page="mentoring"><span class="nav-icon" aria-hidden="true">♡</span>My mentor</button>
         <button type="button" data-page="ai-coach"><span class="nav-icon" aria-hidden="true">✧</span>AI study coach</button>
         <button type="button" data-page="adventure"><span class="nav-icon" aria-hidden="true">✧</span>Find my next step</button>
         <button type="button" data-page="progress"><span class="nav-icon" aria-hidden="true">↗</span>My progress</button>
       </nav>
+      <nav class="nav" aria-label="Mentor workspace" data-role-nav="mentor" hidden>
+        <button class="active" type="button" data-page="home"><span class="nav-icon" aria-hidden="true">⌂</span>Home</button>
+        <button type="button" data-page="overview"><span class="nav-icon" aria-hidden="true">▦</span>Mentor hub</button>
+        <button type="button" data-page="science"><span class="nav-icon" aria-hidden="true">✳</span>Learner work<span class="nav-count" id="mentor-task-count">1</span></button>
+        <button type="button" data-page="mentoring"><span class="nav-icon" aria-hidden="true">♡</span>My learners</button>
+        <button type="button" data-page="ai-coach"><span class="nav-icon" aria-hidden="true">✧</span>Coaching ideas</button>
+        <button type="button" data-page="progress"><span class="nav-icon" aria-hidden="true">↗</span>Learner progress</button>
+      </nav>
       <div class="sidebar-bottom">
-        <div class="sidebar-note"><strong>A little progress, often.</strong>Try a challenge, stay curious, and bring your questions to your mentor.</div>
+        <div class="sidebar-note" id="sidebar-note"><strong>A little progress, often.</strong>Try a challenge, stay curious, and bring your questions to your mentor.</div>
         <div class="profile">
           <div class="avatar" id="profile-avatar" aria-hidden="true">AM</div>
           <div class="profile-copy"><strong id="profile-name">Alex Morgan</strong><small id="profile-label">Student · Science explorer</small></div>
@@ -1775,8 +1812,8 @@
         <button class="mobile-menu" id="menu-button" type="button" aria-label="Open workspace navigation" aria-expanded="false" aria-controls="sidebar">☰</button>
         <div class="crumb"><span class="crumb-context" id="crumb-label">Your learning space</span><span class="workspace-label">DEMO WORKSPACE</span></div>
         <div class="top-actions">
-          <span class="role-label">View as</span>
-          <div class="role-switch" role="group" aria-label="Switch demo view">
+          <span class="role-label">Preview</span>
+          <div class="role-switch" role="group" aria-label="Choose a workspace preview">
             <button type="button" class="selected" data-role="student" aria-pressed="true">Student</button>
             <button type="button" data-role="mentor" aria-pressed="false">Mentor</button>
           </div>
@@ -1930,10 +1967,10 @@
             <div class="banner-art visual-orbit" aria-hidden="true"></div>
           </div>
 
-          <div class="stat-row" aria-label="Learning summary">
-            <div class="stat"><div class="stat-icon" aria-hidden="true">✦</div><div><strong id="xp-total">240</strong><small>curiosity points</small></div></div>
-            <div class="stat"><div class="stat-icon" aria-hidden="true">✓</div><div><strong id="completed-total">1</strong><small>challenges completed</small></div></div>
-            <div class="stat"><div class="stat-icon" aria-hidden="true">🔥</div><div><strong>3 weeks</strong><small>on a learning streak</small></div></div>
+          <div class="stat-row" aria-label="Workspace snapshot">
+            <div class="stat"><div class="stat-icon" aria-hidden="true" id="overview-stat-icon-1">✦</div><div><strong id="overview-stat-value-1">240</strong><small id="overview-stat-label-1">curiosity points</small></div></div>
+            <div class="stat"><div class="stat-icon" aria-hidden="true" id="overview-stat-icon-2">✓</div><div><strong id="overview-stat-value-2">1</strong><small id="overview-stat-label-2">missions explored</small></div></div>
+            <div class="stat"><div class="stat-icon" aria-hidden="true" id="overview-stat-icon-3">🔥</div><div><strong id="overview-stat-value-3">3 weeks</strong><small id="overview-stat-label-3">on a learning streak</small></div></div>
           </div>
 
           <section class="quick-actions" aria-labelledby="quick-actions-title">
@@ -1966,6 +2003,29 @@
                 <div class="card-heading"><h2 id="list-heading">On your desk</h2><button class="link-button" type="button" data-go="science">See all challenges →</button></div>
                 <div class="list" id="dashboard-tasks"></div>
               </div>
+              <section class="workspace-extra" data-role-view="student" aria-labelledby="student-extra-title">
+                <div class="workspace-extra-heading"><div><h2 id="student-extra-title">A little inspiration</h2><p>No big plan needed—pick one thing that sounds interesting.</p></div></div>
+                <div class="workspace-extra-grid">
+                  <article class="workspace-extra-card"><span class="workspace-extra-mark" aria-hidden="true">TRY</span><strong>Try a 15-minute mission</strong><p>Make one small money choice and see what you notice.</p><button type="button" data-challenge="sunlight-garden">Open the quick mission →</button></article>
+                  <article class="workspace-extra-card"><span class="workspace-extra-mark" aria-hidden="true">ASK</span><strong>Ask a better question</strong><p>Turn a “what if?” into a question you can explore.</p><button type="button" data-ai-starter="Help me turn something I’m curious about into a question I can explore. Ask me one question at a time and help me find a small, fun way to test it.">Brainstorm with AI →</button></article>
+                  <article class="workspace-extra-card"><span class="workspace-extra-mark" aria-hidden="true">SHARE</span><strong>Bring someone in</strong><p>Get a second perspective on an idea or challenge.</p><button type="button" data-open-booking>Plan a check-in →</button></article>
+                </div>
+              </section>
+              <section class="workspace-extra" data-role-view="mentor" aria-labelledby="mentor-extra-title" hidden>
+                <div class="workspace-extra-heading"><div><h2 id="mentor-extra-title">Your mentoring toolkit</h2><p>Small, practical ways to help a learner keep moving.</p></div></div>
+                <div class="mentor-summary-grid">
+                  <div class="workspace-extra-grid" style="grid-template-columns:1fr">
+                    <article class="workspace-extra-card"><span class="workspace-extra-mark" aria-hidden="true">REVIEW</span><strong>Give feedback that moves work forward</strong><p>Name one specific strength, then offer one doable next step.</p><button type="button" data-go="science">Open learner work →</button></article>
+                    <article class="workspace-extra-card"><span class="workspace-extra-mark" aria-hidden="true">MEET</span><strong>Make the next check-in count</strong><p>Start with what the learner wants to discuss.</p><button type="button" data-open-booking>Prepare a check-in →</button></article>
+                  </div>
+                  <article class="workspace-extra-card">
+                    <span class="workspace-extra-mark" aria-hidden="true">ASK</span>
+                    <strong>Try a student-first question</strong>
+                    <p>“What part of this felt most like your idea?”</p>
+                    <button type="button" data-ai-starter="I’m a mentor. Help me have a student-led conversation about a learner’s recent project. Give me one warm opening question, one way to recognize a specific strength, and one small next step the learner can choose.">Get more coaching ideas →</button>
+                  </article>
+                </div>
+              </section>
             </div>
             <div class="card mentor-card" id="dashboard-side-card">
               <div class="mentor-cover" aria-hidden="true"></div>
@@ -1985,8 +2045,8 @@
 
         <section class="page" id="page-science" aria-labelledby="science-title">
           <div class="heading">
-            <div><div class="eyebrow">Explore, plan, then practice</div><h1 id="science-title" tabindex="-1">The learning lab</h1><p class="subheading">Hands-on missions help you explore business ideas, understand money, and practice real decisions.</p></div>
-            <button class="button secondary" type="button" data-go="progress">View my progress ↗</button>
+            <div><div class="eyebrow" id="science-eyebrow">Explore, plan, then practice</div><h1 id="science-title" tabindex="-1">The learning lab</h1><p class="subheading" id="science-subheading">Hands-on missions help you explore business ideas, understand money, and practice real decisions.</p></div>
+            <button class="button secondary" id="science-progress-button" type="button" data-go="progress">View my progress ↗</button>
           </div>
           <div class="filters" role="group" aria-label="Filter science challenges">
             <button type="button" class="filter active" data-filter="All">All missions</button>
@@ -1995,10 +2055,11 @@
             <button type="button" class="filter" data-filter="Personal Finance 2">Personal Finance 2</button>
           </div>
           <div class="challenge-grid" id="challenge-grid"></div>
-          <p class="footer-note">Try these activities with a trusted adult nearby. Follow the safety notes in each challenge.</p>
+          <p class="footer-note" id="science-footer-note">Try these activities with a trusted adult nearby. Follow the safety notes in each challenge.</p>
         </section>
 
-        <section class="page" id="page-mentoring" aria-labelledby="mentoring-title">
+        <section class="page" id="page-mentoring" aria-label="Mentoring">
+          <div data-role-view="student">
           <div class="heading">
             <div><div class="eyebrow">Better, together</div><h1 id="mentoring-title" tabindex="-1">Your mentoring corner</h1><p class="subheading" id="mentoring-subheading">A place to ask the questions, share the messy first draft, and celebrate what you figure out.</p></div>
             <button class="button" type="button" id="book-session">＋ Plan a check-in</button>
@@ -2055,6 +2116,47 @@
             <p class="mentor-team-note">Demo roster only: check with JETS staff to confirm mentor details and availability. Check-in suggestions stay in this browser and are not sent.</p>
           </section>
           <p class="footer-note">Demo conversation only. Messages are stored in this browser and are not delivered to another person.</p>
+          </div>
+          <div data-role-view="mentor" hidden>
+            <div class="heading">
+              <div><div class="eyebrow">MENTOR SPACE</div><h1 id="mentor-learners-title" tabindex="-1">Your learners, your impact</h1><p class="subheading">See what learners are exploring, prepare a useful check-in, and make feedback feel encouraging and specific.</p></div>
+              <button class="button" type="button" data-open-booking>＋ Prep a check-in</button>
+            </div>
+            <div class="stat-row" aria-label="Mentor workspace snapshot">
+              <div class="stat"><div class="stat-icon visual-mark" aria-hidden="true">STUDENTS</div><div><strong>1</strong><small>sample learner</small></div></div>
+              <div class="stat"><div class="stat-icon visual-mark" aria-hidden="true">REVIEW</div><div><strong id="mentor-review-count">1</strong><small>projects to review</small></div></div>
+              <div class="stat"><div class="stat-icon visual-mark" aria-hidden="true">NEXT</div><div><strong id="mentor-next-meeting">Not planned</strong><small>next check-in prep</small></div></div>
+            </div>
+            <div class="mentor-summary-grid">
+              <section class="card" aria-labelledby="learner-list-title">
+                <div class="card-heading"><h2 id="learner-list-title">In your corner</h2><span class="status in-progress">DEMO LEARNER</span></div>
+                <article class="mentor-learner-card">
+                  <div class="mentor-learner-avatar" aria-hidden="true">AM</div>
+                  <div class="mentor-learner-copy">
+                    <strong>Alex Morgan</strong>
+                    <small>Exploring business ideas · Learning about money</small>
+                    <p>Recent spark: planning a small AI tool to help students organize an allowance.</p>
+                    <button class="button small" type="button" data-go="science">See Alex's learning work →</button>
+                  </div>
+                </article>
+                <p class="mentor-team-note">Sample learner only. This demo does not connect to a real student or send messages.</p>
+              </section>
+              <section class="card" aria-labelledby="mentor-checkin-title">
+                <div class="card-heading"><h2 id="mentor-checkin-title">Make the next check-in theirs</h2></div>
+                <p class="subheading">A good conversation starts with curiosity, not a checklist. Let the student pick what matters today.</p>
+                <div class="prompt-box"><strong>Try asking</strong>“What are you most proud of trying—even if it didn't go exactly how you expected?”</div>
+                <div class="overview-actions" style="margin-top:13px"><button class="button small" type="button" data-open-booking>Prep a check-in</button><button class="button small secondary" type="button" data-ai-starter="I’m a mentor. Help me prepare a student-led check-in. Suggest a warm opening, two open questions that let the learner set the agenda, and one way to agree on a small next step together.">Get coaching ideas</button></div>
+              </section>
+            </div>
+            <section class="workspace-extra" aria-labelledby="mentor-conversation-starters">
+              <div class="workspace-extra-heading"><div><h2 id="mentor-conversation-starters">Conversation starters that don't feel like an interview</h2><p>Pick one, listen to the answer, and follow the learner's lead.</p></div></div>
+              <div class="mentor-prompt-grid">
+                <button class="mentor-prompt-button" type="button" data-ai-starter="I’m a mentor. Help me ask a student about what has been interesting them lately without making it feel like an interview. Give me three natural, open questions.">“What have you been into lately?”</button>
+                <button class="mentor-prompt-button" type="button" data-ai-starter="I’m a mentor. A learner's project did not go as planned. Suggest supportive ways to help them reflect on what they learned without treating it like failure. Include one question to ask and one small next step they can choose.">“What surprised you when you tried it?”</button>
+                <button class="mentor-prompt-button" type="button" data-ai-starter="I’m a mentor. Help me recognize a learner's effort with specific, genuine words, then ask what kind of support would be useful next. Avoid generic praise or pressure.">“What would feel helpful from me?”</button>
+              </div>
+            </section>
+          </div>
         </section>
 
         <section class="page" id="page-ai-coach" aria-labelledby="ai-coach-title">
@@ -2119,7 +2221,7 @@
           <p class="ai-privacy-note"><strong>Privacy:</strong> When you send a turn, the conversation is sent to OpenAI for a reply and is not saved by Mentorize. OpenAI says API prompts and replies may be retained in abuse-monitoring logs for up to 30 days under default settings; <a href="https://developers.openai.com/api/docs/guides/your-data" target="_blank" rel="noopener noreferrer">read its data policy</a>. Voice playback is handled by this browser. Microphone speech recognition may be processed by the browser or device provider under its privacy policy. This demo has no student accounts or access controls, and the conversation does not sync to a mentor's device. Use only with appropriate school/adult approval. Don't share names, school identifiers, contact details, passwords, private records, or other sensitive information.</p>
         </section>
 
-        <section class="page" id="page-adventure" aria-labelledby="adventure-title">
+        <section class="page" id="page-adventure" aria-labelledby="adventure-title" data-role-only="student">
           <div class="heading">
             <div><div class="eyebrow">YOUR NEXT MOVE</div><h1 id="adventure-title" tabindex="-1">What are you in the mood for?</h1><p class="subheading">Build something, get a fresh idea, talk it out, or see how far you've come. Your call.</p></div>
           </div>
@@ -2171,7 +2273,7 @@
         </section>
         <section class="page" id="page-progress" aria-labelledby="progress-title">
           <div class="heading">
-            <div><div class="eyebrow">Look how far you've come</div><h1 id="progress-title" tabindex="-1">Your progress</h1><p class="subheading" id="progress-subheading">Learning isn't a race. Every experiment, question, and retry is part of the story.</p></div>
+          <div><div class="eyebrow" id="progress-path-eyebrow">Look how far you've come</div><h1 id="progress-title" tabindex="-1">Your progress</h1><p class="subheading" id="progress-subheading">Learning isn't a race. Every experiment, question, and retry is part of the story.</p></div>
           </div>
           <div class="progress-summary" aria-label="Your progress at a glance">
             <div class="progress-summary-item"><strong id="progress-summary-missions">0 / 4</strong><span>missions explored</span></div>
@@ -2181,7 +2283,7 @@
           <div class="progress-layout">
             <div class="card">
               <div class="card-heading"><h2 id="progress-path-title">Your learning lab path</h2><span class="status done" id="progress-level">Level 2 · Curious thinker</span></div>
-              <div style="display:flex;align-items:baseline;gap:8px"><strong style="font-size:27px" id="progress-xp">240</strong><span style="color:var(--muted);font-size:11px">curiosity points</span></div>
+              <div style="display:flex;align-items:baseline;gap:8px"><strong style="font-size:27px" id="progress-xp">240</strong><span style="color:var(--muted);font-size:11px" id="progress-xp-label">curiosity points</span></div>
               <div class="progress-bar" role="progressbar" aria-label="Progress to next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="48" id="level-progress-bar"><span id="level-progress" style="width:48%"></span></div>
               <div class="progress-caption"><span id="level-caption">You're 48% of the way to Level 3</span><span id="next-level">260 XP to go</span></div>
               <section class="progress-section" aria-labelledby="progress-wins-title"><h2 id="progress-wins-title">Little wins</h2><div id="milestones"></div></section>
@@ -2327,26 +2429,39 @@
       const tasks = challenges.filter(challenge => state.role === "mentor"
         ? isComplete(challenge.id) && !state.feedback[challenge.id]
         : !isComplete(challenge.id)).slice(0, 3);
+      const reviewCount = challenges.filter(challenge => isComplete(challenge.id) && !state.feedback[challenge.id]).length;
+      const completedCount = challenges.filter(challenge => isComplete(challenge.id)).length;
       document.getElementById("task-count").textContent = String(state.role === "mentor"
-        ? challenges.filter(challenge => isComplete(challenge.id) && !state.feedback[challenge.id]).length
+        ? reviewCount
         : challenges.filter(challenge => !isComplete(challenge.id)).length);
+      document.getElementById("mentor-task-count").textContent = String(reviewCount);
       document.getElementById("dashboard-tasks").innerHTML = tasks.map(challenge => {
         const status = challengeStatus(challenge);
         const action = state.role === "mentor" ? (state.feedback[challenge.id] ? "Edit feedback" : "Review") : "Open";
         return `<button class="task-row" type="button" data-challenge="${challenge.id}" aria-label="${action}: ${escapeHtml(challenge.title)}"><span class="task-icon visual-mark" aria-hidden="true">${challenge.emoji}</span><span class="task-copy"><strong>${escapeHtml(challenge.title)}</strong><small>${escapeHtml(challenge.subject)} · ${escapeHtml(challenge.time)}</small></span><span class="status ${statusClass(status)}">${escapeHtml(status)}</span><span class="task-open" aria-hidden="true">${action} →</span></button>`;
       }).join("") || `<div class="empty-state">${state.role === "mentor" ? "No learner submissions are waiting for feedback." : "All caught up! Take a moment to celebrate your curiosity."}</div>`;
-      document.getElementById("completed-total").textContent = String(state.completed.length);
       document.getElementById("progress-completed").textContent = String(state.completed.length);
-      document.getElementById("xp-total").textContent = String(state.xp);
       document.getElementById("progress-xp").textContent = String(state.xp);
       const progress = Math.min(100, Math.round((state.xp % 500) / 5));
       document.getElementById("level-progress").style.width = `${progress}%`;
       document.getElementById("level-caption").textContent = `You're ${progress}% of the way to Level ${Math.floor(state.xp / 500) + 2}`;
       document.getElementById("next-level").textContent = `${500 - state.xp % 500} XP to go`;
+      document.getElementById("overview-stat-value-1").textContent = String(state.role === "mentor" ? reviewCount : state.xp);
+      document.getElementById("overview-stat-label-1").textContent = state.role === "mentor" ? "projects to review" : "curiosity points";
+      document.getElementById("overview-stat-icon-1").textContent = state.role === "mentor" ? "REVIEW" : "✦";
+      document.getElementById("overview-stat-value-2").textContent = String(completedCount);
+      document.getElementById("overview-stat-label-2").textContent = state.role === "mentor" ? "learner missions explored" : "missions explored";
+      document.getElementById("overview-stat-icon-2").textContent = state.role === "mentor" ? "LEARN" : "✓";
+      document.getElementById("overview-stat-value-3").textContent = state.role === "mentor" ? "1" : "3 weeks";
+      document.getElementById("overview-stat-label-3").textContent = state.role === "mentor" ? "sample learner" : "on a learning streak";
+      document.getElementById("overview-stat-icon-3").textContent = state.role === "mentor" ? "STUDENT" : "🔥";
+      document.getElementById("mentor-review-count").textContent = String(reviewCount);
     }
 
     function renderChallenges() {
-      const visible = challenges.filter(challenge => activeFilter === "All" || challenge.subject === activeFilter);
+      const visible = challenges.filter(challenge =>
+        (state.role !== "mentor" || isComplete(challenge.id)) &&
+        (activeFilter === "All" || challenge.subject === activeFilter));
       const grid = document.getElementById("challenge-grid");
       grid.innerHTML = visible.map(challenge => {
         const status = challengeStatus(challenge);
@@ -2357,11 +2472,19 @@
 
     function renderRole() {
       const mentor = state.role === "mentor";
+      document.getElementById("app-shell").dataset.workspaceRole = state.role;
+      document.querySelectorAll("[data-role-nav]").forEach(nav => { nav.hidden = nav.dataset.roleNav !== state.role; });
+      document.querySelectorAll("[data-role-view]").forEach(view => { view.hidden = view.dataset.roleView !== state.role; });
+      document.getElementById("workspace-nav-label").textContent = mentor ? "Mentor space" : "Student space";
       document.querySelectorAll("[data-role]").forEach(button => {
         const selected = button.dataset.role === state.role;
         button.classList.toggle("selected", selected);
         button.setAttribute("aria-pressed", String(selected));
       });
+      document.getElementById("sidebar-note").innerHTML = mentor
+        ? "<strong>Listen, then guide.</strong>Start with the learner's goals, celebrate effort, and agree on one next step together."
+        : "<strong>A little progress, often.</strong>Try a challenge, stay curious, and bring your questions to your mentor.";
+      document.querySelector(".workspace-label").textContent = mentor ? "MENTOR SPACE" : "STUDENT SPACE";
       document.querySelectorAll(".demo-message").forEach(message => message.classList.toggle("mine", message.dataset.sender === state.role));
       document.getElementById("profile-name").textContent = mentor ? "Maya Chen" : "Alex Morgan";
       document.getElementById("profile-avatar").textContent = mentor ? "MC" : "AM";
@@ -2372,6 +2495,15 @@
         ? "A good question can open a whole new world. Check in with your learners, review their experiments, and help them find their next question."
         : "Pick a quick mission, explore an idea, or make your own move. No grades, no pressure—just something interesting to try.";
       document.getElementById("overview-science-cta").innerHTML = mentor ? 'Review learner challenges <span aria-hidden="true">→</span>' : 'Find a mission <span aria-hidden="true">→</span>';
+      document.getElementById("science-eyebrow").textContent = mentor ? "Review learner submissions" : "Explore, plan, then practice";
+      document.getElementById("science-title").textContent = mentor ? "Learner work" : "The learning lab";
+      document.getElementById("science-subheading").textContent = mentor
+        ? "Review the learner's explored missions, leave encouraging feedback, and suggest one manageable next step."
+        : "Hands-on missions help you explore business ideas, understand money, and practice real decisions.";
+      document.getElementById("science-progress-button").textContent = mentor ? "View learner progress ↗" : "View my progress ↗";
+      document.getElementById("science-footer-note").textContent = mentor
+        ? "Demo learner data only. Feedback is saved in this browser and is not sent to a real student."
+        : "Try these activities with a trusted adult nearby. Follow the safety notes in each challenge.";
       document.getElementById("surprise-challenge").innerHTML = `<span class="surprise-mark" aria-hidden="true">↻</span> ${mentor ? "Pick a review" : "Surprise me"}`;
       document.getElementById("surprise-challenge").setAttribute("aria-label", mentor ? "Pick a challenge waiting for review" : "Open a random unfinished mission");
       document.getElementById("quick-science-title").textContent = mentor ? "Review learner work" : "Try a learning mission";
@@ -2404,10 +2536,27 @@
         : "Learning isn't a race. Every experiment, question, and retry is part of the story.";
       document.getElementById("message-input").placeholder = mentor ? "Share a thoughtful prompt…" : "Share a question or discovery…";
       document.getElementById("progress-title").textContent = mentor ? "Learner progress" : "Your progress";
+      document.getElementById("progress-xp-label").textContent = mentor ? "learner curiosity points" : "curiosity points";
+      document.getElementById("progress-path-eyebrow").textContent = mentor ? "A learner's progress, not a grade" : "Look how far you've come";
       document.getElementById("progress-path-title").textContent = mentor ? "Alex's learning lab path" : "Your learning lab path";
       document.getElementById("progress-wins-title").textContent = mentor ? "Progress to celebrate" : "Little wins";
       document.getElementById("progress-activity-title").textContent = mentor ? "Missions Alex has explored" : "Missions you've explored";
       document.getElementById("progress-completed-label").textContent = mentor ? "learner missions finished" : "learning missions finished";
+      document.getElementById("progress-summary-missions").nextElementSibling.textContent = mentor ? "learner missions explored" : "missions explored";
+      document.getElementById("progress-summary-xp").nextElementSibling.textContent = mentor ? "learner curiosity points" : "curiosity points earned";
+      document.getElementById("progress-summary-messages").nextElementSibling.textContent = mentor ? "demo messages with learner" : "messages added in this demo";
+      document.getElementById("progress-question-count").nextElementSibling.textContent = mentor ? "messages in demo conversation" : "messages added to your demo conversation";
+      document.getElementById("progress-checkin-status").nextElementSibling.textContent = mentor ? "learner check-in prep" : "your next check-in suggestion";
+      document.getElementById("progress-topics-title").textContent = mentor ? "Learner's areas explored" : "Learning areas explored";
+      document.getElementById("progress-next-title").textContent = mentor ? "A supportive next step" : "A next step to try";
+      document.getElementById("mentor-next-meeting").textContent = state.booking ? "Prepared" : "Not planned";
+      const currentPage = document.querySelector(".page.active")?.id.slice(5);
+      document.querySelectorAll(".nav:not([hidden]) [data-page]").forEach(button => {
+        const active = button.dataset.page === currentPage;
+        button.classList.toggle("active", active);
+        if (active) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
+      });
       if (document.getElementById("page-overview").classList.contains("active")) {
         document.getElementById("crumb-label").textContent = mentor ? "Mentor overview" : "Student overview";
       }
@@ -2433,11 +2582,13 @@
       document.getElementById("progress-question-count").textContent = String(messageCount);
       document.getElementById("progress-checkin-status").textContent = state.booking ? "Suggested" : "Not planned yet";
       document.getElementById("progress-xp").textContent = String(state.xp);
-      document.getElementById("progress-level").textContent = `Level ${level} · Curious thinker`;
+      document.getElementById("progress-level").textContent = mentor ? "Learner snapshot" : `Level ${level} · Curious thinker`;
       document.getElementById("level-progress").style.width = `${progress}%`;
       document.getElementById("level-progress-bar").setAttribute("aria-valuenow", String(progress));
-      document.getElementById("level-caption").textContent = `You're ${progress}% of the way to Level ${level + 1}`;
-      document.getElementById("next-level").textContent = `${remainingXp} XP to go`;
+      document.getElementById("level-caption").textContent = mentor
+        ? `Learner is ${progress}% of the way to Level ${level + 1}`
+        : `You're ${progress}% of the way to Level ${level + 1}`;
+      document.getElementById("next-level").textContent = mentor ? `${remainingXp} learner XP to go` : `${remainingXp} XP to go`;
 
       const milestones = [
         `<div class="milestone"><div class="milestone-icon visual-mark" aria-hidden="true">01</div><div><strong>${completedChallenges.length} of ${challenges.length} learning missions explored</strong><small>${completedChallenges.length === challenges.length ? "Every demo mission explored—choose a new question next." : `${challenges.length - completedChallenges.length} mission${challenges.length - completedChallenges.length === 1 ? "" : "s"} still ready when you are.`}</small></div></div>`,
@@ -2723,9 +2874,13 @@
     function switchPage(page) {
       const section = document.getElementById(`page-${page}`);
       if (!section) return;
+      if (section.dataset.roleOnly && section.dataset.roleOnly !== state.role) {
+        showToast("That page belongs to the student workspace. Switch to Student to open it.");
+        return;
+      }
       document.getElementById("app-shell").classList.toggle("marketing-mode", page === "home");
       document.querySelectorAll(".page").forEach(item => item.classList.toggle("active", item === section));
-      document.querySelectorAll(".nav [data-page]").forEach(button => {
+      document.querySelectorAll(".nav:not([hidden]) [data-page]").forEach(button => {
         const active = button.dataset.page === page;
         button.classList.toggle("active", active);
         if (active) button.setAttribute("aria-current", "page");
@@ -2743,7 +2898,7 @@
       closeWorkspaceNav();
       if (page === "ai-coach") checkAiStatus();
       if (page === "home") window.scrollTo({ top: 0, behavior: "smooth" });
-      section.querySelector("h1")?.focus({ preventScroll: true });
+      (section.querySelector(`[data-role-view="${state.role}"] h1`) || section.querySelector("h1"))?.focus({ preventScroll: true });
     }
 
     function closeWorkspaceNav() {
@@ -2869,6 +3024,23 @@
         openSurpriseChallenge();
         return;
       }
+      const aiStarter = target.closest("[data-ai-starter]");
+      if (aiStarter) {
+        if (aiBusy) {
+          showToast("The AI coach is finishing a reply. Try again in a moment.");
+          return;
+        }
+        const speaker = state.role === "mentor" ? "mentor" : "student";
+        const speakerSelect = document.getElementById("ai-speaker");
+        speakerSelect.value = speaker;
+        speakerSelect.dispatchEvent(new Event("change"));
+        const input = document.getElementById("ai-input");
+        input.value = aiStarter.dataset.aiStarter;
+        document.getElementById("ai-character-count").textContent = `${input.value.length} / 1400`;
+        switchPage("ai-coach");
+        input.focus();
+        return;
+      }
       const pageButton = target.closest("[data-page], [data-go]");
       if (pageButton) {
         switchPage(pageButton.dataset.page || pageButton.dataset.go);
@@ -2887,8 +3059,13 @@
       const roleButton = target.closest("[data-role]");
       if (roleButton) {
         state.role = roleButton.dataset.role;
+        activeFilter = "All";
+        document.querySelectorAll("[data-filter]").forEach(button => button.classList.toggle("active", button.dataset.filter === "All"));
         saveState();
         renderRole();
+        if (document.querySelector(".page.active")?.dataset.roleOnly === "student" && state.role !== "student") {
+          switchPage("overview");
+        }
         return;
       }
       const filterButton = target.closest("[data-filter]");
